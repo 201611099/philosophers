@@ -1,4 +1,4 @@
-# ft_philosopher_junhpark
+# ft_philosopher_tutorial
 ft_philosopher 단계별
 
 1. header 남김.
