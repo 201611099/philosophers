@@ -17,7 +17,8 @@ int		start(t_philo *philos, t_info *info)
 	int i;
 
 	i = 0;
-	mutex_init(info);
+	if (mutex_init(info) == END)
+		return (END);
 	while (i < g_philo_num)
 	{
 		philos[i].when_eat = get_relative_time();
@@ -34,20 +35,20 @@ int		main(int argc, char *argv[])
 {
 	t_philo	*philos;
 
-	if (-1 == set_info_argv(&g_info, argc, argv))
+	if (-1 == set_info_argv(info(), argc, argv))
 	{
 		printf("error\n");
 		return (-1);
 	}
 	// NOTE Setting
-	set_info(&g_info);
-	g_philo_num = g_info.number_of_philosophers;
+	set_info(info());
+	g_philo_num = info()->number_of_philosophers;
 	philos = malloc(sizeof(t_philo) * g_philo_num);
 	set_philos(philos);
 	// NOTE Setting
 
 	// NOTE 시작
-	start(philos, &g_info);
+	start(philos, info());
 	free_all(philos);
 	return (0);
 }
@@ -55,6 +56,7 @@ int		main(int argc, char *argv[])
 void	free_all(t_philo *philos)
 {
 	free(philos);
-	free(g_info.forks);
-	free(g_info.full_list);
+	free(info()->forks);
+	if (info()->meal_full)
+		free(info()->full_list);
 }

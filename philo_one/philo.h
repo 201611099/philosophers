@@ -36,6 +36,16 @@ typedef enum
 	DEAD
 }	t_status;
 
+typedef struct	s_philo
+{
+	pthread_t		thread;
+	int				whoami;
+	unsigned long	when_eat;
+	int				left_fork_num;
+	int				right_fork_num;
+	int				meal_num;
+}				t_philo;
+
 typedef struct	s_info
 {
 	int				number_of_philosophers;
@@ -48,20 +58,11 @@ typedef struct	s_info
 	pthread_mutex_t	*forks;
 	pthread_mutex_t	print_mutex;
 	char			*full_list;
+	t_philo			*philos;
 }				t_info;
 
-typedef struct	s_philo
-{
-	pthread_t		thread;
-	int				whoami;
-	unsigned long	when_eat;
-	int				left_fork_num;
-	int				right_fork_num;
-	int				meal_num;
-}				t_philo;
 
 int				g_philo_num;
-t_info			g_info;
 
 /*
 ** main.c
@@ -74,9 +75,10 @@ void			free_all(t_philo *philos);
 /*
 ** setting.c
 */
+t_info			*info(void);
 int				set_info_argv(t_info *info, int argc, char *argv[]);
-void			mutex_fork_init(t_info *info);
-void			mutex_init(t_info *info);
+void			mutex_fork_init(t_info *info); //존재하지 않음.
+int				mutex_init(t_info *info);
 void			print_info(t_info *info);
 int				set_info(t_info *info);
 int				set_philos(t_philo *philos);

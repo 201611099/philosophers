@@ -24,24 +24,19 @@ unsigned long	get_absolute_time(void)
 
 unsigned long	get_relative_time(void)
 {
-	struct timeval	time;
-	unsigned long	milisecond;
 	unsigned long	relative_milisecond;
-
-	gettimeofday(&time, NULL);
-	milisecond = time.tv_sec * 1000 + time.tv_usec / 1000;
-	relative_milisecond = milisecond - g_info.basetime;
+	relative_milisecond = get_absolute_time() - info()->basetime;
 	return (relative_milisecond);
 }
 
-int				spend_time_of(t_status doing)
+int	spend_time_of(t_status doing)
 {
 	unsigned long milisecond;
 
 	if (doing == EATING)
-		milisecond = g_info.time_to_eat;
+		milisecond = info()->time_to_eat;
 	if (doing == SLEEPING)
-		milisecond = g_info.time_to_sleep;
+		milisecond = info()->time_to_sleep;
 	accurate_sleep(milisecond);
 	return (1);
 }
