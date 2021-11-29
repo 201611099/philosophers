@@ -24,17 +24,13 @@ unsigned long	get_absolute_time(void)
 
 unsigned long	get_relative_time(void)
 {
-	struct timeval	time;
-	unsigned long	milisecond;
 	unsigned long	relative_milisecond;
 
-	gettimeofday(&time, NULL);
-	milisecond = time.tv_sec * 1000 + time.tv_usec / 1000;
-	relative_milisecond = milisecond - g_info.basetime;
+	relative_milisecond = get_absolute_time() - g_info.basetime;
 	return (relative_milisecond);
 }
 
-int				spend_time_of(t_status doing)
+int	spend_time_of(t_status doing)
 {
 	unsigned long milisecond;
 
@@ -49,7 +45,7 @@ int				spend_time_of(t_status doing)
 
 // NOTE usleep() 대신에 이 함수를 쓰는 이유를 아래 슬랙을 통해서 숙지하길 바람.
 // https://42born2code.slack.com/archives/CU6MU5TB7/p1608577708286600?thread_ts=1608559809.272100&cid=CU6MU5TB7
-void			accurate_sleep(unsigned long milisecond)
+void	accurate_sleep(unsigned long milisecond)
 {
 	unsigned long	base;
 	unsigned long	cur;

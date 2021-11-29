@@ -40,8 +40,8 @@ typedef struct	s_info
 {
 	int				number_of_philosophers;
 	unsigned long	time_to_die;
-	int				time_to_eat;
-	int				time_to_sleep;
+	unsigned long	time_to_eat;
+	unsigned long	time_to_sleep;
 	int				meal_full;
 	unsigned long	basetime;
 	bool			anyone_dead;
