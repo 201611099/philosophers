@@ -71,7 +71,7 @@ int	mutex_init(t_info *info)
 	}
 	while (i < info->number_of_philosophers)
 	{
-		if (pthread_mutex_init(&(info->forks[i]), NULL))
+		if (pthread_mutex_init(&(info->forks[i++]), NULL))
 		{
 			free(info->forks);
 			if (info->meal_full)
@@ -94,7 +94,7 @@ int		set_philos(t_philo *philos)
 	while (++i < info()->number_of_philosophers)
 	{
 		// t_philo[i]의 멤버 값들 설정하기
-		memset(&(philos[i]), sizeof(t_philo));
+		memset(&(philos[i]), 0, sizeof(t_philo));
 		philos[i].whoami = i + 1;
 		philos[i].left_fork_num = i;
 		philos[i].right_fork_num = (i + 1) % info()->number_of_philosophers;

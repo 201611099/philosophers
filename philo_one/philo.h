@@ -54,7 +54,7 @@ typedef struct	s_info
 	int				time_to_sleep;
 	int				meal_full;
 	unsigned long	basetime;
-	bool			anyone_dead;
+	int				anyone_dead;
 	pthread_mutex_t	*forks;
 	pthread_mutex_t	print_mutex;
 	char			*full_list;

@@ -9,7 +9,8 @@ all : $(NAME)
 # %.o : %.c
 # 	$(CC) -c $< -o $@
 $(NAME) :
-	$(CC) $(CFLAGS) $(SRCS) -o $(NAME);
+	$(CC)  $(SRCS) -o $(NAME);
+#	$(CC) $(CFLAGS) $(SRCS) -o $(NAME);
 	
 .PHONY: clean bonus re fclean all
 
