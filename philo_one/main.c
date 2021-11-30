@@ -22,7 +22,7 @@ int		start(t_philo *philos, t_info *info)
 	while (i < g_philo_num)
 	{
 		philos[i].when_eat = get_relative_time();
-		pthread_create(&philos[i].thread, NULL, philo_do, (void *)&philos[i]);
+		pthread_create(&philos[i].thread, NULL, &philo_do, (void *)&philos[i]);
 		i++;
 	}
 	i = 0;

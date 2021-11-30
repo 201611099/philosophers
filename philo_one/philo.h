@@ -100,9 +100,9 @@ void			accurate_sleep(unsigned long milisecond);
 ** do.c
 */
 int				eat(t_philo *philo, t_info *info);
-void			*monitoring(void *param);
+void			monitoring(void *param);
 int				doing(t_status status, t_philo *philo, unsigned long interval);
-void			*philo_do(void *param);
+void			philo_do(void *param);
 int				print_doing(t_status status, t_philo *philo);
 bool			is_all_philos_full();
 

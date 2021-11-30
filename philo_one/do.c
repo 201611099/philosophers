@@ -74,7 +74,7 @@ bool	is_all_philos_full(void)
 }
 
 // 하나의 철학자에 대한 모니터링
-void	*monitoring(void *param)
+void	monitoring(void *param)
 {
 	t_philo			*philo;
 	unsigned long	time;
@@ -91,30 +91,31 @@ void	*monitoring(void *param)
 		// 3. 시간 계산을 해서, 현재 이 모니터함수가 관찰하고 있는 철학자가 죽었다면, dead 출력 후 break;
 		if (philo->when_eat + info()->time_to_die < get_relative_time())
 		{
-			doing(DEAD, philo, get_relative_time());
 			info()->anyone_dead = TRUE;
+			doing(DEAD, philo, get_relative_time());
 			break ;
 		}
 	}
-	return (NULL);
 }
 
 //한 명의 철학자에 대한 정보가 넘어옴
-void	*philo_do(void *param)
+void	philo_do(void *param)
 {
 	t_philo		*philo;
 	pthread_t	thread;
 
 	philo = (t_philo *)param;
-	pthread_create(&thread, NULL, monitoring, philo);
+	pthread_create(&thread, NULL, &monitoring, philo);
 	//
 	//
 
-		if (philo->whoami % 2)
-			accurate_sleep(10);
+	if (philo->whoami % 2)
+		accurate_sleep(10);
 	// NOTE 먹고 자고 생각하고
 	while (1)
 	{
+		if (info()->anyone_dead)
+			return ;
 		// 1. 먹고
 		eat(philo, info());
 
@@ -125,5 +126,4 @@ void	*philo_do(void *param)
 		doing(THINKING, philo, get_relative_time());
 	}
 	pthread_join(thread, NULL);
-	return (NULL);
 }
