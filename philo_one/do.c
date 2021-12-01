@@ -35,7 +35,7 @@ int		print_doing(t_status status, t_philo *philo)
 		printf("%d has taken right fork.\n", philo->whoami);
 	else if (status == DEAD)
 	{
-		printf("%d is dead.\n", philo->whoami);
+		printf("%d is died.\n", philo->whoami);
 		return (END);
 	}
 	return (CONTINUE);
@@ -86,7 +86,10 @@ void	*monitoring(void *param)
 		// NOTE 확인해야하는 것
 		// 1. 어느 한명이라도 죽었다면, break; (내가 아니더라도, 누군가 죽었으면 Stop!)
 		if (info()->anyone_dead == TRUE)
+		{
+			// doing(DEAD, philo, get_relative_time());
 			break ;
+		}
 		// 2. 인자가 주어진 경우 모든 철학자가 밥을 먹었으면, break;
 		// 3. 시간 계산을 해서, 현재 이 모니터함수가 관찰하고 있는 철학자가 죽었다면, dead 출력 후 break;
 		if (philo->when_eat + info()->time_to_die < get_relative_time())
@@ -110,7 +113,7 @@ void	*philo_do(void *param)
 	//
 
 	if (philo->whoami % 2)
-		accurate_sleep(10);
+		accurate_sleep(5);
 	// NOTE 먹고 자고 생각하고
 	while (1)
 	{

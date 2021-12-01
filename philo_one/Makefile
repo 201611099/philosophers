@@ -14,10 +14,12 @@ $(NAME) : $(OBJS)
 	$(CC) $(OBJS) -o $(NAME);
 #	$(CC) $(CFLAGS) $(OBJS) -o $(NAME);
 	
-.PHONY: clean bonus re fclean all
-
 clean :
 	rm -f $(OBJS)
+
 fclean : clean
 	rm -f $(NAME)
+
 re : fclean all
+
+.PHONY: clean bonus re fclean all
