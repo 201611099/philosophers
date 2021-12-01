@@ -47,7 +47,7 @@ int		doing(t_status status, t_philo *philo, unsigned long interval)
 
 	// NOTE 출력에 대해서 mutex를 해줘야 출력이 안 꼬임. 출력하는 순간을 동기화하는 것임
 	pthread_mutex_lock(&(info()->print_mutex));
-	printf("%dms ", interval);
+	printf("%lums ", interval);
 	ret = print_doing(status, philo);
 	//
 	///*
@@ -74,7 +74,7 @@ bool	is_all_philos_full(void)
 }
 
 // 하나의 철학자에 대한 모니터링
-void	monitoring(void *param)
+void	*monitoring(void *param)
 {
 	t_philo			*philo;
 	unsigned long	time;
@@ -99,13 +99,13 @@ void	monitoring(void *param)
 }
 
 //한 명의 철학자에 대한 정보가 넘어옴
-void	philo_do(void *param)
+void	*philo_do(void *param)
 {
 	t_philo		*philo;
 	pthread_t	thread;
 
 	philo = (t_philo *)param;
-	pthread_create(&thread, NULL, &monitoring, philo);
+	pthread_create(&thread, NULL, monitoring, philo);
 	//
 	//
 
@@ -115,7 +115,7 @@ void	philo_do(void *param)
 	while (1)
 	{
 		if (info()->anyone_dead)
-			return ;
+			return (0);
 		// 1. 먹고
 		eat(philo, info());
 
