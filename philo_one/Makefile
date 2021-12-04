@@ -1,4 +1,5 @@
 CC = gcc
+#CFLAGS = -g3 -fsanitize=address
 CFLAGS = -Wall -Wextra -Werror
 NAME = philo_one
 SRCS = do_eat.c do.c main.c setting.c time.c \

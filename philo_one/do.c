@@ -35,7 +35,9 @@ int		print_doing(t_status status, t_philo *philo)
 		printf("%d has taken right fork.\n", philo->whoami);
 	else if (status == DEAD)
 	{
+		//if (info()->anyone_dead == FALSE)
 		printf("\x1b[31m%d is died.\n\x1b[0m", philo->whoami);
+		info()->anyone_dead = TRUE;
 		return (END);
 	}
 	return (CONTINUE);
@@ -47,8 +49,11 @@ int		doing(t_status status, t_philo *philo, unsigned long interval)
 
 	// NOTE 출력에 대해서 mutex를 해줘야 출력이 안 꼬임. 출력하는 순간을 동기화하는 것임
 	pthread_mutex_lock(&(info()->print_mutex));
-	printf("%lums ", interval);
-	ret = print_doing(status, philo);
+	if (info()->anyone_dead == FALSE)
+	{
+		printf("%lums ", interval);
+		ret = print_doing(status, philo);
+	}
 	//
 	///*
 	//먹고, 자고, 죽고
@@ -94,8 +99,8 @@ void	*monitoring(void *param)
 		// 3. 시간 계산을 해서, 현재 이 모니터함수가 관찰하고 있는 철학자가 죽었다면, dead 출력 후 break;
 		if (philo->when_eat + info()->time_to_die < get_relative_time())
 		{
-			info()->anyone_dead = TRUE;
 			doing(DEAD, philo, get_relative_time());
+			//info()->anyone_dead = TRUE;
 			return (0);
 		}
 	}
@@ -118,24 +123,26 @@ void	*philo_do(void *param)
 	while (1)
 	{
 		if (info()->anyone_dead)
-			return (0);
+			break ;
 		// 1. 먹고
-		eat(philo, info());
+		if (eat(philo, info()) == END)
+			break ;
 
 		// 2. 자고
 
 		if (info()->anyone_dead)
-			return (0);
+			break ;
 		doing(SLEEPING, philo, get_relative_time());
 		
 		if (info()->anyone_dead)
-			return (0);
+			break ;
 		spend_time_of(SLEEPING);
 		// 3. 생각하고
 
 		if (info()->anyone_dead)
-			return (0);
+			break ;
 		doing(THINKING, philo, get_relative_time());
 	}
 	pthread_join(thread, NULL);
+	return (0);
 }
