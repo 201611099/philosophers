@@ -36,6 +36,8 @@ typedef enum
 	DEAD
 }	t_status;
 
+struct s_info;
+
 typedef struct	s_philo
 {
 	pthread_t		thread;
@@ -44,6 +46,7 @@ typedef struct	s_philo
 	int				left_fork_num;
 	int				right_fork_num;
 	int				meal_num;
+	struct s_info	*info;
 }				t_philo;
 
 typedef struct	s_info

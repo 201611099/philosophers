@@ -24,7 +24,7 @@ int		print_doing(t_status status, t_philo *philo)
 	printf("is died\n");
 	*/
 	if (status == EATING)
-		printf("\x1b[31m%d is eating.\n\x1b[0m", philo->whoami);
+		printf("\x1b[34m%d is eating.\n\x1b[0m", philo->whoami);
 	else if (status == SLEEPING)
 		printf("\x1b[32m%d is sleeping.\n\x1b[0m", philo->whoami);
 	else if (status == THINKING)
@@ -35,7 +35,7 @@ int		print_doing(t_status status, t_philo *philo)
 		printf("%d has taken right fork.\n", philo->whoami);
 	else if (status == DEAD)
 	{
-		printf("%d is died.\n", philo->whoami);
+		printf("\x1b[31m%d is died.\n\x1b[0m", philo->whoami);
 		return (END);
 	}
 	return (CONTINUE);
@@ -88,7 +88,7 @@ void	*monitoring(void *param)
 		if (info()->anyone_dead == TRUE)
 		{
 			// doing(DEAD, philo, get_relative_time());
-			break ;
+			return (0);
 		}
 		// 2. 인자가 주어진 경우 모든 철학자가 밥을 먹었으면, break;
 		// 3. 시간 계산을 해서, 현재 이 모니터함수가 관찰하고 있는 철학자가 죽었다면, dead 출력 후 break;
@@ -96,7 +96,7 @@ void	*monitoring(void *param)
 		{
 			info()->anyone_dead = TRUE;
 			doing(DEAD, philo, get_relative_time());
-			break ;
+			return (0);
 		}
 	}
 }
@@ -123,9 +123,18 @@ void	*philo_do(void *param)
 		eat(philo, info());
 
 		// 2. 자고
+
+		if (info()->anyone_dead)
+			return (0);
 		doing(SLEEPING, philo, get_relative_time());
+		
+		if (info()->anyone_dead)
+			return (0);
 		spend_time_of(SLEEPING);
 		// 3. 생각하고
+
+		if (info()->anyone_dead)
+			return (0);
 		doing(THINKING, philo, get_relative_time());
 	}
 	pthread_join(thread, NULL);
