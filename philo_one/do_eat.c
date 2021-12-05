@@ -6,7 +6,7 @@
 /*   By: yunslee <yunslee@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/08 21:00:55 by yunslee           #+#    #+#             */
-/*   Updated: 2021/03/08 21:04:26 by yunslee          ###   ########.fr       */
+/*   Updated: 2021/12/06 03:40:45 by yunslee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,27 +52,26 @@ int	eat(t_philo *philo, t_info *info)
 	if (info->anyone_dead)
 		return (END);
 	// 2. 먹는 알고리즘 info->forks에 대해서 mutex가 쓰임. 매우매우 중요한 부분
-
-	if (info->anyone_dead)
-		return (END);
 	pthread_mutex_lock(&(info->forks[philo->left_fork_num]));
-	if (info->anyone_dead)
-		return (END);
-	doing(LEFT_TAKEN, philo, get_relative_time());
-
-	if (info->anyone_dead)
-		return (END);
+	if (doing(LEFT_TAKEN, philo, get_relative_time()) == END)
+	{
+		pthread_mutex_unlock(&(info->forks[philo->left_fork_num]));
+		return END;
+	}
 	pthread_mutex_lock(&(info->forks[philo->right_fork_num]));
-	if (info->anyone_dead)
-		return (END);
-	doing(RIGHT_TAKEN, philo, get_relative_time());
-
-	if (info->anyone_dead)
-		return (END);
-	doing(EATING, philo, get_relative_time());
+	if (doing(RIGHT_TAKEN, philo, get_relative_time()) == END)
+	{
+		pthread_mutex_unlock(&(info->forks[philo->left_fork_num]));
+		pthread_mutex_unlock(&(info->forks[philo->right_fork_num]));
+		return END;
+	}
+	if (doing(EATING, philo, get_relative_time()) == END)
+	{
+		pthread_mutex_unlock(&(info->forks[philo->left_fork_num]));
+		pthread_mutex_unlock(&(info->forks[philo->right_fork_num]));
+		return END;
+	}
 	philo->when_eat = get_relative_time();
-	if (info->anyone_dead)
-		return (END);
 	spend_time_of(EATING);
 	pthread_mutex_unlock(&(info->forks[philo->left_fork_num]));
 	pthread_mutex_unlock(&(info->forks[philo->right_fork_num]));

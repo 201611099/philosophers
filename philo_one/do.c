@@ -6,7 +6,7 @@
 /*   By: yunslee <yunslee@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/08 21:01:14 by yunslee           #+#    #+#             */
-/*   Updated: 2021/03/16 05:55:40 by yunslee          ###   ########.fr       */
+/*   Updated: 2021/12/06 03:20:24 by yunslee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,27 +46,17 @@ int		print_doing(t_status status, t_philo *philo)
 int		doing(t_status status, t_philo *philo, unsigned long interval)
 {
 	int	ret;
-
-	// NOTE 출력에 대해서 mutex를 해줘야 출력이 안 꼬임. 출력하는 순간을 동기화하는 것임
 	pthread_mutex_lock(&(info()->print_mutex));
 	if (info()->anyone_dead == FALSE)
 	{
 		printf("%lums ", interval);
 		ret = print_doing(status, philo);
 	}
-	//
-	///*
-	//먹고, 자고, 죽고
-	//누군가 죽고, 다 먹었고, etc...
-	//모든 출력은 이 안에서, 그리고 아래 있는 함수 print_doing() 에서 일어남.
-	//// TODO Hint
-	//ret = print_doing(t_status status, t_philo *philo)
-	//*/
-	//
+	else
+	{
+		ret = END;
+	}
 	pthread_mutex_unlock(&(info()->print_mutex));
-	// NOTE 출력에 대해서 mutex를 해줘야 출력이 안 꼬임. 출력하는 순간을 동기화하는 것임
-
-	// NOTE 상태에 따라서 philo_do의 while(1)을 나갈 수 있게 함.(exit()을 쓰는 것이 편할지 모르지만, 안 써도 충분히 가능함.)
 	if (ret == CONTINUE)
 		return (CONTINUE);
 	else if (ret == END)
