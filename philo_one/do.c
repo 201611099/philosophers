@@ -30,12 +30,12 @@ int		print_doing(t_status status, t_philo *philo)
 	else if (status == THINKING)
 		printf("\x1b[33m%d is thinking.\n\x1b[0m", philo->whoami);
 	else if (status == LEFT_TAKEN)
-		printf("%d has taken left fork.\n", philo->whoami);
+		printf("%d has taken a left fork.\n", philo->whoami);
 	else if (status == RIGHT_TAKEN)
-		printf("%d has taken right fork.\n", philo->whoami);
+		printf("%d has taken a right fork.\n", philo->whoami);
 	else if (status == DEAD)
 	{
-		printf("\x1b[31m%d is died.\n\x1b[0m", philo->whoami);
+		printf("\x1b[31m%d died.\n\x1b[0m", philo->whoami);
 		info()->anyone_dead = TRUE;
 		return (END);
 	}
