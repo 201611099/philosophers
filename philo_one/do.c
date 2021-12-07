@@ -35,7 +35,6 @@ int		print_doing(t_status status, t_philo *philo)
 		printf("%d has taken right fork.\n", philo->whoami);
 	else if (status == DEAD)
 	{
-		//if (info()->anyone_dead == FALSE)
 		printf("\x1b[31m%d is died.\n\x1b[0m", philo->whoami);
 		info()->anyone_dead = TRUE;
 		return (END);
@@ -46,6 +45,9 @@ int		print_doing(t_status status, t_philo *philo)
 int		doing(t_status status, t_philo *philo, unsigned long interval)
 {
 	int	ret;
+
+	if (info()->anyone_dead == TRUE)
+		return (END);
 	pthread_mutex_lock(&(info()->print_mutex));
 	if (info()->anyone_dead == FALSE)
 	{
@@ -53,15 +55,9 @@ int		doing(t_status status, t_philo *philo, unsigned long interval)
 		ret = print_doing(status, philo);
 	}
 	else
-	{
 		ret = END;
-	}
 	pthread_mutex_unlock(&(info()->print_mutex));
-	if (ret == CONTINUE)
-		return (CONTINUE);
-	else if (ret == END)
-		return (END);
-	return (END);
+	return (ret);
 }
 
 bool	is_all_philos_full(void)
@@ -81,18 +77,16 @@ void	*monitoring(void *param)
 		// NOTE 확인해야하는 것
 		// 1. 어느 한명이라도 죽었다면, break; (내가 아니더라도, 누군가 죽었으면 Stop!)
 		if (info()->anyone_dead == TRUE)
-		{
-			// doing(DEAD, philo, get_relative_time());
 			return (0);
-		}
 		// 2. 인자가 주어진 경우 모든 철학자가 밥을 먹었으면, break;
+
 		// 3. 시간 계산을 해서, 현재 이 모니터함수가 관찰하고 있는 철학자가 죽었다면, dead 출력 후 break;
 		if (philo->when_eat + info()->time_to_die < get_relative_time())
 		{
 			doing(DEAD, philo, get_relative_time());
-			//info()->anyone_dead = TRUE;
 			return (0);
 		}
+		accurate_sleep(200);
 	}
 }
 
@@ -104,34 +98,26 @@ void	*philo_do(void *param)
 
 	philo = (t_philo *)param;
 	pthread_create(&thread, NULL, monitoring, philo);
-	//
-	//
 
 	if (philo->whoami % 2)
-		accurate_sleep(5);
+		accurate_sleep(10);
 	// NOTE 먹고 자고 생각하고
 	while (1)
 	{
-		if (info()->anyone_dead)
-			break ;
+		// if (info()->anyone_dead)
+		// 	break ;
 		// 1. 먹고
 		if (eat(philo, info()) == END)
 			break ;
-
 		// 2. 자고
-
-		if (info()->anyone_dead)
+		if (doing(SLEEPING, philo, get_relative_time()) == END)
 			break ;
-		doing(SLEEPING, philo, get_relative_time());
-		
-		if (info()->anyone_dead)
-			break ;
+		// if (info()->anyone_dead)
+		// 	break ;
 		spend_time_of(SLEEPING);
 		// 3. 생각하고
-
-		if (info()->anyone_dead)
-			break ;
-		doing(THINKING, philo, get_relative_time());
+		if (doing(THINKING, philo, get_relative_time()) == END)
+			break;
 	}
 	pthread_join(thread, NULL);
 	return (0);

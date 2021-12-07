@@ -56,20 +56,20 @@ int	eat(t_philo *philo, t_info *info)
 	if (doing(LEFT_TAKEN, philo, get_relative_time()) == END)
 	{
 		pthread_mutex_unlock(&(info->forks[philo->left_fork_num]));
-		return END;
+		return (END);
 	}
 	pthread_mutex_lock(&(info->forks[philo->right_fork_num]));
 	if (doing(RIGHT_TAKEN, philo, get_relative_time()) == END)
 	{
 		pthread_mutex_unlock(&(info->forks[philo->left_fork_num]));
 		pthread_mutex_unlock(&(info->forks[philo->right_fork_num]));
-		return END;
+		return (END);
 	}
 	if (doing(EATING, philo, get_relative_time()) == END)
 	{
 		pthread_mutex_unlock(&(info->forks[philo->left_fork_num]));
 		pthread_mutex_unlock(&(info->forks[philo->right_fork_num]));
-		return END;
+		return (END);
 	}
 	philo->when_eat = get_relative_time();
 	spend_time_of(EATING);
