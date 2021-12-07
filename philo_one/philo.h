@@ -33,7 +33,8 @@ typedef enum
 	THINKING,
 	LEFT_TAKEN,
 	RIGHT_TAKEN,
-	DEAD
+	DEAD,
+	MEAL
 }	t_status;
 
 struct s_info;
@@ -60,7 +61,7 @@ typedef struct	s_info
 	int				anyone_dead;
 	pthread_mutex_t	*forks;
 	pthread_mutex_t	print_mutex;
-	char			*full_list;
+	int				*full_list; //다 먹은 철학자 판별해주는 역할(?)
 	t_philo			*philos;
 }				t_info;
 
@@ -107,7 +108,9 @@ void			*monitoring(void *param);
 int				doing(t_status status, t_philo *philo, unsigned long interval);
 void			*philo_do(void *param);
 int				print_doing(t_status status, t_philo *philo);
-bool			is_all_philos_full();
+// int				is_all_philos_full();
+int				is_all_philos_full(t_philo *philo);
+
 
 /*
 ** do_eat.c

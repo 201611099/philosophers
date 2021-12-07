@@ -39,6 +39,12 @@ int		print_doing(t_status status, t_philo *philo)
 		info()->anyone_dead = TRUE;
 		return (END);
 	}
+	else if (status == MEAL)
+	{
+		printf("\x1b[35mEnd of meal\n\x1b[0m");
+		info()->anyone_dead = TRUE;
+		return (END);
+	}
 	return (CONTINUE);
 }
 
@@ -65,8 +71,27 @@ int		doing(t_status status, t_philo *philo, unsigned long interval)
 	return (ret);
 }
 
-bool	is_all_philos_full(void)
+int	is_all_philos_full(t_philo *philo)
 {
+	int i;
+	
+	i = 0;
+	if (info()->meal_full == 0)
+		return (FALSE);
+	while (info()->meal_full > 0 && i < info()->number_of_philosophers)
+	{
+		if (info()->full_list[i] == 0)
+			break ;
+		i++;
+	}
+	if (i == info()->number_of_philosophers)
+	{
+		// info()->anyone_dead = TRUE;
+		// printf("\x1b[35mEnd of meal\n\x1b[0m");
+		doing(MEAL, philo, get_relative_time());
+		return (TRUE);
+	}
+	return (FALSE);
 }
 
 // 하나의 철학자에 대한 모니터링
@@ -85,6 +110,8 @@ void	*monitoring(void *param)
 			return (0);
 		// 2. 인자가 주어진 경우 모든 철학자가 밥을 먹었으면, break;
 
+		if (is_all_philos_full(philo) == TRUE)
+			return (0);
 		// 3. 시간 계산을 해서, 현재 이 모니터함수가 관찰하고 있는 철학자가 죽었다면, dead 출력 후 break;
 		if (philo->when_eat + info()->time_to_die < get_relative_time())
 		{
@@ -115,8 +142,6 @@ void	*philo_do(void *param)
 		// 2. 자고
 		if (doing(SLEEPING, philo, get_relative_time()) == END)
 			break ;
-		// if (info()->anyone_dead)
-		// 	break ;
 		spend_time_of(SLEEPING);
 		// 3. 생각하고
 		if (doing(THINKING, philo, get_relative_time()) == END)

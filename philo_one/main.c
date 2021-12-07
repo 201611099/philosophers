@@ -28,6 +28,7 @@ int		start(t_philo *philos, t_info *info)
 	i = 0;
 	while (i < g_philo_num)
 		pthread_join(philos[i++].thread, NULL);
+	//
 	return (END);
 }
 

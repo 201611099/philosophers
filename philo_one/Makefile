@@ -1,5 +1,5 @@
 CC = gcc
-#CFLAGS = -g3 -fsanitize=address
+YUN = -g3 -fsanitize=address
 CFLAGS = -Wall -Wextra -Werror
 NAME = philo_one
 SRCS = do_eat.c do.c main.c setting.c time.c \
@@ -14,7 +14,10 @@ all : $(NAME)
 $(NAME) : $(OBJS)
 	$(CC) $(OBJS) -o $(NAME);
 #	$(CC) $(CFLAGS) $(OBJS) -o $(NAME);
-	
+
+fsan :
+	$(CC) $(YUN) $(SRCS) -o $(NAME);
+
 clean :
 	rm -f $(OBJS)
 

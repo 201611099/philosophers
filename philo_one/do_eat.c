@@ -75,7 +75,10 @@ int	eat(t_philo *philo, t_info *info)
 	spend_time_of(EATING);
 	pthread_mutex_unlock(&(info->forks[philo->left_fork_num]));
 	pthread_mutex_unlock(&(info->forks[philo->right_fork_num]));
-	
+	philo->meal_num++;
+	if (info->meal_full > 0 && philo->meal_num == info->meal_full)
+		info->full_list[philo->whoami - 1] = 1;
+
 	// 나는 철학자가 죽지 않게 하는 알고리즘으로써 아래 함수를 썼음. 본인 방법을 생각해보면 좋을 듯
 	// eat_one_direction(philo, info);
 	return (CONTINUE);

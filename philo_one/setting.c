@@ -37,20 +37,25 @@ int		set_info_argv(t_info *info, int argc, char *argv[])
 // NOTE forks, basetime, anyone_dead, full_list을 초기화 해줌.
 int		set_info(t_info *info)
 {
+	int	i;
+
+	i = 0;
 	info->basetime = get_absolute_time();
 	info->forks = (pthread_mutex_t *)malloc(sizeof(pthread_mutex_t)
 	* info->number_of_philosophers);
 	if (!info->forks)
 		return (END);
-	if (info->meal_full)
+	if (info->meal_full > 0)
 	{
-		info->full_list = (char *)malloc(sizeof(char) 
+		info->full_list = (int *)malloc(sizeof(int)
 		* info->number_of_philosophers);
 		if (!info->full_list)
 		{
 			free(info->forks);
 			return (END);
 		}
+		while (i < info->number_of_philosophers)
+			info->full_list[i++] = 0;
 	}
 	return (CONTINUE);
 }
