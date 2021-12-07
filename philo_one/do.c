@@ -44,14 +44,19 @@ int		print_doing(t_status status, t_philo *philo)
 
 int		doing(t_status status, t_philo *philo, unsigned long interval)
 {
-	int	ret;
+	int				ret;
+	unsigned long	times;
 
+	// times = interval;
 	if (info()->anyone_dead == TRUE)
 		return (END);
 	pthread_mutex_lock(&(info()->print_mutex));
+	times = get_relative_time();
 	if (info()->anyone_dead == FALSE)
 	{
-		printf("%lums ", interval);
+		if (status == EATING)
+			philo->when_eat = times;
+		printf("%lums ", times);
 		ret = print_doing(status, philo);
 	}
 	else
@@ -86,7 +91,7 @@ void	*monitoring(void *param)
 			doing(DEAD, philo, get_relative_time());
 			return (0);
 		}
-		accurate_sleep(200);
+		accurate_sleep(3);
 	}
 }
 
@@ -100,12 +105,10 @@ void	*philo_do(void *param)
 	pthread_create(&thread, NULL, monitoring, philo);
 
 	if (philo->whoami % 2)
-		accurate_sleep(10);
+		accurate_sleep(3);
 	// NOTE 먹고 자고 생각하고
 	while (1)
 	{
-		// if (info()->anyone_dead)
-		// 	break ;
 		// 1. 먹고
 		if (eat(philo, info()) == END)
 			break ;

@@ -71,7 +71,7 @@ int	eat(t_philo *philo, t_info *info)
 		pthread_mutex_unlock(&(info->forks[philo->right_fork_num]));
 		return (END);
 	}
-	philo->when_eat = get_relative_time();
+	// philo->when_eat = get_relative_time();
 	spend_time_of(EATING);
 	pthread_mutex_unlock(&(info->forks[philo->left_fork_num]));
 	pthread_mutex_unlock(&(info->forks[philo->right_fork_num]));
