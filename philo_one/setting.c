@@ -21,7 +21,7 @@ t_info	*info(void)
 }
 
 // NOTE argv 에러처리, argv 값을 t_info에 넣어줌
-int		set_info_argv(t_info *info, int argc, char *argv[])
+int	set_info_argv(t_info *info, int argc, char *argv[])
 {
 	if (argc != 5 && argc != 6)
 		return (END);
@@ -35,20 +35,20 @@ int		set_info_argv(t_info *info, int argc, char *argv[])
 }
 
 // NOTE forks, basetime, anyone_dead, full_list을 초기화 해줌.
-int		set_info(t_info *info)
+int	set_info(t_info *info)
 {
 	int	i;
 
 	i = 0;
 	info->basetime = get_absolute_time();
 	info->forks = (pthread_mutex_t *)malloc(sizeof(pthread_mutex_t)
-	* info->number_of_philosophers);
+			* info->number_of_philosophers);
 	if (!info->forks)
 		return (END);
 	if (info->meal_full > 0)
 	{
 		info->full_list = (int *)malloc(sizeof(int)
-		* info->number_of_philosophers);
+				* info->number_of_philosophers);
 		if (!info->full_list)
 		{
 			free(info->forks);
@@ -81,16 +81,14 @@ int	mutex_init(t_info *info)
 			free(info->forks);
 			if (info->meal_full)
 				free(info->full_list);
-				return (END);
+			return (END);
 		}
-		
 	}
 	return (CONTINUE);
 }
 
-
 // NOTE 철학자에 대한 정보 초기화 t_philo에 있는 값들 설정하기 
-int		set_philos(t_philo *philos)
+int	set_philos(t_philo *philos)
 {
 	unsigned long	init_time;
 	int				i;

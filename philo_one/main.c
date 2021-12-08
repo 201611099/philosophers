@@ -12,8 +12,11 @@
 
 #include "philo.h"
 
-void	*monitor_whole(t_info *info)
+void	*monitor_whole(void *param)
 {
+	t_info	*info;
+
+	info = (t_info *)param;
 	while (1)
 	{
 		if (info->anyone_dead == TRUE)
@@ -22,7 +25,7 @@ void	*monitor_whole(t_info *info)
 		{
 			info->anyone_dead = TRUE;
 			pthread_mutex_lock(&(info->print_mutex));
-			printf("\x1b[35mEnd of meal\n\x1b[0m");
+			printf("\x1b[35m%lums End of meal\n\x1b[0m", get_relative_time());
 			pthread_mutex_unlock(&(info->print_mutex));
 			break ;
 		}
@@ -30,9 +33,9 @@ void	*monitor_whole(t_info *info)
 	return (0);
 }
 
-int		start(t_philo *philos, t_info *info)
+int	start(t_philo *philos, t_info *info)
 {
-	int i;
+	int			i;
 	pthread_t	monitor;
 
 	i = 0;
@@ -52,11 +55,10 @@ int		start(t_philo *philos, t_info *info)
 	}
 	while (i < g_philo_num)
 		pthread_join(philos[i++].thread, NULL);
-	//
 	return (END);
 }
 
-int		main(int argc, char *argv[])
+int	main(int argc, char *argv[])
 {
 	t_philo	*philos;
 

@@ -33,8 +33,7 @@ typedef enum
 	THINKING,
 	LEFT_TAKEN,
 	RIGHT_TAKEN,
-	DEAD,
-	MEAL
+	DEAD
 }	t_status;
 
 struct s_info;
@@ -115,6 +114,6 @@ int				is_all_philos_full();
 /*
 ** do_eat.c
 */
-int				eat_one_direction(t_philo *philo, t_info *info);
+// int				eat_one_direction(t_philo *philo, t_info *info);
 int				eat(t_philo *philo, t_info *info);
 #endif
