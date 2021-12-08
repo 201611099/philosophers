@@ -108,8 +108,8 @@ void			*monitoring(void *param);
 int				doing(t_status status, t_philo *philo, unsigned long interval);
 void			*philo_do(void *param);
 int				print_doing(t_status status, t_philo *philo);
-// int				is_all_philos_full();
-int				is_all_philos_full(t_philo *philo);
+int				is_all_philos_full();
+// int				is_all_philos_full(t_philo *philo);
 
 
 /*

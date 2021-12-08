@@ -12,9 +12,28 @@
 
 #include "philo.h"
 
+void	*monitor_whole(t_info *info)
+{
+	while (1)
+	{
+		if (info->anyone_dead == TRUE)
+			break ;
+		if (is_all_philos_full() == TRUE)
+		{
+			info->anyone_dead = TRUE;
+			pthread_mutex_lock(&(info->print_mutex));
+			printf("\x1b[35mEnd of meal\n\x1b[0m");
+			pthread_mutex_unlock(&(info->print_mutex));
+			break ;
+		}
+	}
+	return (0);
+}
+
 int		start(t_philo *philos, t_info *info)
 {
 	int i;
+	pthread_t	monitor;
 
 	i = 0;
 	if (mutex_init(info) == END)
@@ -26,6 +45,11 @@ int		start(t_philo *philos, t_info *info)
 		i++;
 	}
 	i = 0;
+	if (info->meal_full > 0)
+	{
+		pthread_create(&monitor, NULL, monitor_whole, info);
+		pthread_join(monitor, NULL);
+	}
 	while (i < g_philo_num)
 		pthread_join(philos[i++].thread, NULL);
 	//
