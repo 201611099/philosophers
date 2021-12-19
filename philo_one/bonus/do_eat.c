@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "philo.h"
+#include "philo_bonus.h"
 
 // NOTE 철학자가 죽지 않도록하는 나의 알고리즘임
 // int	eat_one_direction(t_philo *philo, t_info *info)
