@@ -3,21 +3,21 @@
 /*                                                        :::      ::::::::   */
 /*   philo.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yunslee <yunslee@student.42.fr>            +#+  +:+       +#+        */
+/*   By: hyojlee <hyojlee@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/08 21:10:20 by yunslee           #+#    #+#             */
-/*   Updated: 2021/03/09 01:08:06 by yunslee          ###   ########.fr       */
+/*   Updated: 2021/12/19 16:57:21 by hyojlee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef PHILO_H
 # define PHILO_H
+
 # include <stdlib.h>
 # include <unistd.h>
 # include <sys/time.h>
 # include <pthread.h>
 # include <string.h>
-# include <semaphore.h>
 # include <stdio.h>
 # include <stdbool.h>
 
@@ -114,6 +114,5 @@ int				is_all_philos_full();
 /*
 ** do_eat.c
 */
-// int				eat_one_direction(t_philo *philo, t_info *info);
 int				eat(t_philo *philo, t_info *info);
 #endif

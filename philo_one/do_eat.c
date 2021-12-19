@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   do_eat.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yunslee <yunslee@student.42.fr>            +#+  +:+       +#+        */
+/*   By: hyojlee <hyojlee@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/08 21:00:55 by yunslee           #+#    #+#             */
-/*   Updated: 2021/12/19 16:24:03 by yunslee          ###   ########.fr       */
+/*   Updated: 2021/12/19 16:57:57 by hyojlee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,5 @@ int	eat(t_philo *philo, t_info *info)
 		info->full_list[philo->whoami - 1] = 1;
 	pthread_mutex_unlock(&(info->forks[philo->left_fork_num]));
 	pthread_mutex_unlock(&(info->forks[philo->right_fork_num]));
-	// 나는 철학자가 죽지 않게 하는 알고리즘으로써 아래 함수를 썼음. 본인 방법을 생각해보면 좋을 듯
-	// eat_one_direction(philo, info);
 	return (CONTINUE);
 }

@@ -1,17 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   philo.h                                            :+:      :+:    :+:   */
+/*   philo_bonus.h                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yunslee <yunslee@student.42.fr>            +#+  +:+       +#+        */
+/*   By: hyojlee <hyojlee@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/08 21:10:20 by yunslee           #+#    #+#             */
-/*   Updated: 2021/03/09 01:08:06 by yunslee          ###   ########.fr       */
+/*   Updated: 2021/12/19 17:04:24 by hyojlee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef PHILO_BONUS_H
 # define PHILO_BONUS_H
+
 # include <stdlib.h>
 # include <unistd.h>
 # include <sys/time.h>
@@ -20,6 +21,7 @@
 # include <semaphore.h>
 # include <stdio.h>
 # include <stdbool.h>
+# include <signal.h>
 
 # define FALSE 0
 # define TRUE 1
@@ -40,11 +42,9 @@ struct s_info;
 
 typedef struct	s_philo
 {
-	pthread_t		thread;
-	int				whoami;
+	pid_t			pid;
+	int				whoami; //몇 번째 철학자인가
 	unsigned long	when_eat;
-	int				left_fork_num;
-	int				right_fork_num;
 	int				meal_num;
 	struct s_info	*info;
 }				t_philo;
@@ -58,8 +58,9 @@ typedef struct	s_info
 	int				meal_full;
 	unsigned long	basetime;
 	int				anyone_dead;
-	pthread_mutex_t	*forks;
-	pthread_mutex_t	print_mutex;
+	sem_t			*forks; // #(philos)
+	sem_t			*print_sem; // #1
+	sem_t			*eat_people; // #(philos) / 2
 	int				*full_list; //다 먹은 철학자 판별해주는 역할(?)
 	t_philo			*philos;
 }				t_info;
@@ -114,6 +115,5 @@ int				is_all_philos_full();
 /*
 ** do_eat.c
 */
-// int				eat_one_direction(t_philo *philo, t_info *info);
 int				eat(t_philo *philo, t_info *info);
 #endif
