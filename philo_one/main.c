@@ -6,7 +6,7 @@
 /*   By: yunslee <yunslee@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/08 21:15:00 by yunslee           #+#    #+#             */
-/*   Updated: 2021/03/09 01:08:50 by yunslee          ###   ########.fr       */
+/*   Updated: 2021/12/19 14:13:03 by yunslee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,8 @@ int	main(int argc, char *argv[])
 		return (-1);
 	}
 	// NOTE Setting
-	set_info(info());
+	if (set_info(info()) == END)
+		return (-1);
 	g_philo_num = info()->number_of_philosophers;
 	philos = malloc(sizeof(t_philo) * g_philo_num);
 	set_philos(philos);
