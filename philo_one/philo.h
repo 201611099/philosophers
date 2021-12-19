@@ -6,7 +6,7 @@
 /*   By: hyojlee <hyojlee@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/08 21:10:20 by yunslee           #+#    #+#             */
-/*   Updated: 2021/12/19 16:57:21 by hyojlee          ###   ########.fr       */
+/*   Updated: 2021/12/19 19:51:50 by hyojlee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ typedef struct	s_philo
 	int				left_fork_num;
 	int				right_fork_num;
 	int				meal_num;
-	struct s_info	*info;
+	//struct s_info	*info;
 }				t_philo;
 
 typedef struct	s_info

@@ -6,7 +6,7 @@
 /*   By: hyojlee <hyojlee@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/08 21:00:55 by yunslee           #+#    #+#             */
-/*   Updated: 2021/12/19 16:57:46 by hyojlee          ###   ########.fr       */
+/*   Updated: 2021/12/19 20:53:54 by hyojlee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@ int	eat(t_philo *philo, t_info *info)
 	// 1. 누군가 죽었는지 판단해서 죽었다면, 바로 return 
 	if (info->anyone_dead)
 		return (END);
+		
 	// 2. 먹는 알고리즘 info->forks에 대해서 mutex가 쓰임. 매우매우 중요한 부분
 	pthread_mutex_lock(&(info->forks[philo->left_fork_num]));
 	if (doing(LEFT_TAKEN, philo, get_relative_time()) == END)

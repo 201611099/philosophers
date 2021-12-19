@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   setting.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yunslee <yunslee@student.42.fr>            +#+  +:+       +#+        */
+/*   By: hyojlee <hyojlee@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/08 21:15:14 by yunslee           #+#    #+#             */
-/*   Updated: 2021/03/09 01:08:01 by yunslee          ###   ########.fr       */
+/*   Updated: 2021/12/19 20:52:12 by hyojlee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,68 +20,45 @@ t_info	*info(void)
 	return (&info);
 }
 
-// NOTE argv 에러처리, argv 값을 t_info에 넣어줌
-int	set_info_argv(t_info *info, int argc, char *argv[])
-{
-	if (argc != 5 && argc != 6)
-		return (END);
-	info->number_of_philosophers = ft_atoi(argv[1]);
-	info->time_to_die = ft_atoi(argv[2]);
-	info->time_to_eat = ft_atoi(argv[3]);
-	info->time_to_sleep = ft_atoi(argv[4]);
-	if (argc == 6)
-		info->meal_full = ft_atoi(argv[5]);
-	return (CONTINUE);
-}
-
 // NOTE forks, basetime, anyone_dead, full_list을 초기화 해줌.
 int	set_info(t_info *info)
 {
-	int	i;
+	int		i;
+	int		flag;
+	char	*name;
 
 	i = 0;
+	flag = O_CREAT | O_EXCL;
 	info->basetime = get_absolute_time();
-	info->forks = (pthread_mutex_t *)malloc(sizeof(pthread_mutex_t)
-			* info->number_of_philosophers);
-	if (!info->forks)
-		return (END);
+	sem_unlink_all();
+	sem_unlink_full_list(info->number_of_philosophers);
+	info->forks = sem_open("/sem_forks", flag, 0755, info->number_of_philosophers);
+	info->print_sem = sem_open("/sem_print", flag, 0755, 1);
+	info->eat_people = sem_open("/sem_eat", flag, 0755, info->number_of_philosophers / 2);
+	if (info->forks == SEM_FAILED || info->forks == SEM_FAILED || info->forks == SEM_FAILED)
+	{
+		return (sem_close_all(info));
+	}
 	if (info->meal_full > 0)
 	{
-		info->full_list = (int *)malloc(sizeof(int)
+		info->full_list = (sem_t **)malloc(sizeof(sem_t *)
 				* info->number_of_philosophers);
 		if (!info->full_list)
 		{
-			free(info->forks);
-			return (END);
+			return (sem_close_all(info));
 		}
 		while (i < info->number_of_philosophers)
-			info->full_list[i++] = 0;
-	}
-	return (CONTINUE);
-}
-
-// NOTE (info->forks)포크에 대해서 하나씩 mutex_init 해주고, 
-// (info->print_mutex)print에 대해서도 mutex_init 해준다.
-int	mutex_init(t_info *info)
-{
-	int	i;
-
-	i = 0;
-	if (pthread_mutex_init(&(info->print_mutex), NULL))
-	{
-		free(info->forks);
-		if (info->meal_full)
-			free(info->full_list);
-		return (END);
-	}
-	while (i < info->number_of_philosophers)
-	{
-		if (pthread_mutex_init(&(info->forks[i++]), NULL))
 		{
-			free(info->forks);
-			if (info->meal_full)
+			// ft_itoa를 받아주는 char* 필요할꺼같은데, 안그럼 메모리누수 날꺼같음.
+			name = ft_itoa(i);
+			info->full_list[i] = sem_open(name, flag, 0755, 1);
+			free(name);
+			if (info->full_list[i] == SEM_FAILED)
+			{
+				sem_close_full_list(i);
 				free(info->full_list);
-			return (END);
+				return (sem_close_all(info));
+			}
 		}
 	}
 	return (CONTINUE);
@@ -99,9 +76,32 @@ int	set_philos(t_philo *philos)
 		// t_philo[i]의 멤버 값들 설정하기
 		memset(&(philos[i]), 0, sizeof(t_philo));
 		philos[i].whoami = i + 1;
-		philos[i].left_fork_num = i;
-		philos[i].right_fork_num = (i + 1) % info()->number_of_philosophers;
 	}
 	info()->philos = philos;
+	return (CONTINUE);
+}
+
+// 만약을 위해서 남겨둠!! 쓰진 않는데
+int deprecated_semopen(t_info *info)
+{
+	int flag;
+
+	flag = O_CREAT | O_EXCL;
+	info->forks = sem_open("/sem_forks", flag, 0755, info->number_of_philosophers);
+	if (info->forks == SEM_FAILED)
+		return (END);
+	info->print_sem = sem_open("/sem_print", flag, 0755, 1);
+	if (info->print_sem == SEM_FAILED)
+	{
+		sem_close(info->forks);
+		return (END);
+	}
+	info->eat_people = sem_open("/sem_eat", flag, 0755, info->number_of_philosophers / 2);
+	if (info->eat_people == SEM_FAILED)
+	{
+		sem_close(info->forks);
+		sem_close(info->print_sem);
+		return (END);
+	}
 	return (CONTINUE);
 }

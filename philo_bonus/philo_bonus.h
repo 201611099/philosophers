@@ -6,7 +6,7 @@
 /*   By: hyojlee <hyojlee@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/08 21:10:20 by yunslee           #+#    #+#             */
-/*   Updated: 2021/12/19 17:04:24 by hyojlee          ###   ########.fr       */
+/*   Updated: 2021/12/19 20:51:37 by hyojlee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,31 +38,28 @@ typedef enum
 	DEAD
 }	t_status;
 
-struct s_info;
-
 typedef struct	s_philo
 {
 	pid_t			pid;
 	int				whoami; //몇 번째 철학자인가
 	unsigned long	when_eat;
 	int				meal_num;
-	struct s_info	*info;
 }				t_philo;
 
 typedef struct	s_info
 {
 	int				number_of_philosophers;
-	unsigned long	time_to_die;
-	int				time_to_eat;
-	int				time_to_sleep;
-	int				meal_full;
-	unsigned long	basetime;
-	int				anyone_dead;
+	unsigned long	time_to_die; //set_info_argv
+	int				time_to_eat; //set_info_argv
+	int				time_to_sleep; //set_info_argv
+	int				meal_full; //set_info_argv
+	unsigned long	basetime; //set_info
 	sem_t			*forks; // #(philos)
 	sem_t			*print_sem; // #1
 	sem_t			*eat_people; // #(philos) / 2
-	int				*full_list; //다 먹은 철학자 판별해주는 역할(?)
-	t_philo			*philos;
+	//누군가 다 먹었다. 부모에게 알려야 한다. #(philos)
+	sem_t			**full_list; //다 먹은 철학자 판별해주는 역할(?)
+	t_philo			*philos; //main
 }				t_info;
 
 
@@ -106,7 +103,7 @@ void			accurate_sleep(unsigned long milisecond);
 int				eat(t_philo *philo, t_info *info);
 void			*monitoring(void *param);
 int				doing(t_status status, t_philo *philo, unsigned long interval);
-void			*philo_do(void *param);
+void			*philo_do(t_philo *philo);
 int				print_doing(t_status status, t_philo *philo);
 int				is_all_philos_full();
 // int				is_all_philos_full(t_philo *philo);
@@ -116,4 +113,19 @@ int				is_all_philos_full();
 ** do_eat.c
 */
 int				eat(t_philo *philo, t_info *info);
+
+/*
+** ft_itoa.c
+*/
+char			*ft_itoa(int n);
+
+/*
+** clear.c
+*/
+void			sem_unlink_all();
+void			sem_unlink_full_list(int n);
+int				sem_close_all(t_info *info);
+int				sem_close_full_list(int n);
+int				set_info_argv(t_info *info, int argc, char *argv[]);
+
 #endif

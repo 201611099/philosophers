@@ -6,56 +6,46 @@
 /*   By: hyojlee <hyojlee@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/08 21:15:00 by yunslee           #+#    #+#             */
-/*   Updated: 2021/12/19 17:05:51 by hyojlee          ###   ########.fr       */
+/*   Updated: 2021/12/19 20:34:24 by hyojlee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo_bonus.h"
 
-void	*monitor_whole(void *param)
+void	*monitoring_whole(t_info	*info)
 {
-	t_info	*info;
-
-	info = (t_info *)param;
 	while (1)
 	{
-		if (info->anyone_dead == TRUE)
+		if (info->anyone_dead == TRUE) // 누군가 죽었다면, 프로세스 종료
 			break ;
-		if (is_all_philos_full() == TRUE)
+		if (is_all_philos_full() == TRUE) // 모두가 다 먹었다면, 프로세스 종료
 		{
-			info->anyone_dead = TRUE;
-			pthread_mutex_lock(&(info->print_mutex));
-			printf("\x1b[35m%lums End of meal\n\x1b[0m", get_relative_time());
-			pthread_mutex_unlock(&(info->print_mutex));
 			break ;
 		}
 	}
 	return (0);
 }
 
+// start()는 확실히 이 포맷을 따라가는 것이 좋아 보임 12.19(yunslee)
 int	start(t_philo *philos, t_info *info)
 {
-	int			i;
-	pthread_t	monitor;
-
+	int		i;
+	int		status;
+	pid_t	pid;
+	
 	i = 0;
-	if (mutex_init(info) == END)
-		return (END);
 	while (i < g_philo_num)
 	{
-		philos[i].when_eat = get_relative_time();
-		pthread_create(&philos[i].thread, NULL, philo_do, (void *)&philos[i]);
+		philos[i].pid = fork();
+		if (philos[i].pid == 0)
+			break;
 		i++;
 	}
-	i = 0;
-	if (info->meal_full > 0)
-	{
-		pthread_create(&monitor, NULL, monitor_whole, info);
-		pthread_join(monitor, NULL);
-	}
-	while (i < g_philo_num)
-		pthread_join(philos[i++].thread, NULL);
-	return (END);
+	if (i != g_philo_num)
+		philo_do(&philos[i]);
+	else
+		monitoring_whole(info);
+	return (CONTINUE);
 }
 
 int	main(int argc, char *argv[])
@@ -71,20 +61,17 @@ int	main(int argc, char *argv[])
 	if (set_info(info()) == END)
 		return (-1);
 	g_philo_num = info()->number_of_philosophers;
-	philos = malloc(sizeof(t_philo) * g_philo_num);
-	set_philos(philos);
+	philos = (t_philo *)malloc(sizeof(t_philo) * g_philo_num);
+	if (!philos)
+	{
+		sem_close_all(info());
+		sem_close_full_list(info()->number_of_philosophers);
+		return (-1);
+	}
 	// NOTE Setting
 
 	// NOTE 시작
 	start(philos, info());
 	free_all(philos);
 	return (0);
-}
-
-void	free_all(t_philo *philos)
-{
-	free(philos);
-	free(info()->forks);
-	if (info()->meal_full)
-		free(info()->full_list);
 }

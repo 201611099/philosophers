@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yunslee <yunslee@student.42.fr>            +#+  +:+       +#+        */
+/*   By: hyojlee <hyojlee@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/08 21:15:00 by yunslee           #+#    #+#             */
-/*   Updated: 2021/12/19 14:13:03 by yunslee          ###   ########.fr       */
+/*   Updated: 2021/12/19 20:31:17 by hyojlee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,14 @@ int	main(int argc, char *argv[])
 	if (set_info(info()) == END)
 		return (-1);
 	g_philo_num = info()->number_of_philosophers;
-	philos = malloc(sizeof(t_philo) * g_philo_num);
+	philos = (t_philo *)malloc(sizeof(t_philo) * g_philo_num);
+	if (!philos)
+	{
+		free(info()->forks);
+		if (info()->meal_full)
+			free(info()->full_list);
+		return (-1);
+	}
 	set_philos(philos);
 	// NOTE Setting
 
