@@ -16,8 +16,8 @@ void	*monitoring_whole(t_info	*info)
 {
 	while (1)
 	{
-		if (info->anyone_dead == TRUE) // 누군가 죽었다면, 프로세스 종료
-			break ;
+		// if (info->anyone_dead == TRUE) // 누군가 죽었다면, 프로세스 종료
+		// 	break ;
 		if (is_all_philos_full() == TRUE) // 모두가 다 먹었다면, 프로세스 종료
 		{
 			break ;
@@ -34,6 +34,13 @@ int	start(t_philo *philos, t_info *info)
 	pid_t	pid;
 	
 	i = 0;
+	/*
+	 * 철학자 수만큼 프로세스를 만들어야함.
+	 * i는 0부터 시작하기 때문에
+	 * i == g_philo_num 이라면 부모 프로세스일 수밖에 없음
+	 * 따라서, i != g_philo_num 은 자식 프로세스들이 실행하는 코드이고,
+	 * i == g_philo_num 은 부모 프로세스가 실행하는 코드가 됨.
+	 */
 	while (i < g_philo_num)
 	{
 		philos[i].pid = fork();
@@ -41,7 +48,7 @@ int	start(t_philo *philos, t_info *info)
 			break;
 		i++;
 	}
-	if (i != g_philo_num)
+	if (i != g_philo_num) 
 		philo_do(&philos[i]);
 	else
 		monitoring_whole(info);
@@ -71,7 +78,7 @@ int	main(int argc, char *argv[])
 	// NOTE Setting
 
 	// NOTE 시작
-	start(philos, info());
+	start(philos, info()); // philo fork하는 부분
 	free_all(philos);
 	return (0);
 }
