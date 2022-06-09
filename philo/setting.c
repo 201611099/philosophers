@@ -3,15 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   setting.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yunslee <yunslee@student.42.fr>            +#+  +:+       +#+        */
+/*   By: hyojlee <hyojlee@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/03/08 21:15:14 by yunslee           #+#    #+#             */
-/*   Updated: 2021/03/09 01:08:01 by yunslee          ###   ########.fr       */
+/*   Created: 2021/03/08 21:15:14 by hyojlee           #+#    #+#             */
+/*   Updated: 2022/06/09 14:39:53 by hyojlee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
-#include <limits.h>
+// #include <limits.h>
 
 t_info	*info(void)
 {

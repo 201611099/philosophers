@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hyojlee <hyojlee@student.42.fr>            +#+  +:+       +#+        */
+/*   By: hyojlee <hyojlee@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/03/08 21:15:00 by yunslee           #+#    #+#             */
-/*   Updated: 2021/12/19 20:34:24 by hyojlee          ###   ########.fr       */
+/*   Created: 2021/03/08 21:15:00 by hyojlee           #+#    #+#             */
+/*   Updated: 2022/06/09 14:39:53 by hyojlee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ void	*monitoring_whole(t_info	*info)
 	return (0);
 }
 
-// start()는 확실히 이 포맷을 따라가는 것이 좋아 보임 12.19(yunslee)
+// start()는 확실히 이 포맷을 따라가는 것이 좋아 보임 12.19(hyojlee)
 int	start(t_philo *philos, t_info *info)
 {
 	int		i;

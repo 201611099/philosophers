@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   time.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hyojlee <hyojlee@student.42.fr>            +#+  +:+       +#+        */
+/*   By: hyojlee <hyojlee@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/03/08 21:18:01 by yunslee           #+#    #+#             */
-/*   Updated: 2021/12/19 20:21:09 by hyojlee          ###   ########.fr       */
+/*   Created: 2021/03/08 21:18:01 by hyojlee           #+#    #+#             */
+/*   Updated: 2022/06/09 14:39:53 by hyojlee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "philo_bonus.h"
+#include "philo.h"
 
 unsigned long	get_absolute_time(void)
 {

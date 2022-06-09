@@ -3,26 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   do.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yunslee <yunslee@student.42.fr>            +#+  +:+       +#+        */
+/*   By: hyojlee <hyojlee@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/03/08 21:01:14 by yunslee           #+#    #+#             */
-/*   Updated: 2021/12/06 03:20:24 by yunslee          ###   ########.fr       */
+/*   Created: 2021/03/08 21:01:14 by hyojlee           #+#    #+#             */
+/*   Updated: 2022/06/09 14:39:53 by hyojlee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "philo.h"
+#include "philo_bonus.h"
 
 int		print_doing(t_status status, t_philo *philo)
 {
-	// NOTE 이 함수에서 printf는 이런 것들이 호출 됬음. 적절한 조건문을 활용하길 바람.
-	/*
-	printf("is eating\n");
-	printf("is sleeping\n");
-	printf("is thinking\n");
-	printf("has taken a fork\n");
-	printf("has taken a fork\n");
-	printf("is died\n");
-	*/
 	if (status == EATING)
 		printf("\x1b[34m%d is eating.\n\x1b[0m", philo->whoami);
 	else if (status == SLEEPING)
@@ -50,7 +41,8 @@ int		doing(t_status status, t_philo *philo, unsigned long interval)
 	// times = interval;
 	if (info()->anyone_dead == TRUE)
 		return (END);
-	pthread_mutex_lock(&(info()->print_mutex));
+	sem_wait(info()->print_sem);
+	//pthread_mutex_lock(&(info()->print_mutex));
 	times = get_relative_time();
 	if (info()->anyone_dead == FALSE)
 	{
@@ -61,7 +53,8 @@ int		doing(t_status status, t_philo *philo, unsigned long interval)
 	}
 	else
 		ret = END;
-	pthread_mutex_unlock(&(info()->print_mutex));
+	//pthread_mutex_unlock(&(info()->print_mutex));
+	sem_post(info()->print_sem);
 	return (ret);
 }
 
@@ -98,13 +91,9 @@ void	*monitoring(void *param)
 	
 	while (1)
 	{
-		// NOTE 확인해야하는 것
-		// 1. 어느 한명이라도 죽었다면, break; (내가 아니더라도, 누군가 죽었으면 Stop!)
-		if (info()->anyone_dead == TRUE)
-			return (0);
-		// 2. 인자가 주어진 경우 모든 철학자가 밥을 먹었으면, break;
-
-		// 3. 시간 계산을 해서, 현재 이 모니터함수가 관찰하고 있는 철학자가 죽었다면, dead 출력 후 break;
+		// 1. 어느 한명이라도 죽었다면, monitoring_whole 에서 철학자를 죽일 것 같음. 따라서 여기서는 필요 없을 듯
+		// 2. 인자가 주어진 경우 모든 철학자가 밥을 먹었으면, break, sem_post
+		// 3. 시간 계산을 해서, 현재 이 모니터함수가 관찰하고 있는 철학자가 죽었다면, dead 출력 후, exit();
 		if (philo->when_eat + info()->time_to_die < get_relative_time())
 		{
 			doing(DEAD, philo, get_relative_time());
@@ -115,12 +104,11 @@ void	*monitoring(void *param)
 }
 
 //한 명의 철학자에 대한 정보가 넘어옴
-void	*philo_do(void *param)
+void	*philo_do(t_philo	*philo)
 {
-	t_philo		*philo;
 	pthread_t	thread;
 
-	philo = (t_philo *)param;
+	//philo = (t_philo *)param;
 	pthread_create(&thread, NULL, monitoring, philo);
 
 	if (philo->whoami % 2)

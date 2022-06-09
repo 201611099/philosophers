@@ -3,15 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   ft_atoi.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yunslee <yunslee@student.42.fr>            +#+  +:+       +#+        */
+/*   By: hyojlee <hyojlee@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/03/08 21:19:28 by yunslee           #+#    #+#             */
-/*   Updated: 2021/03/08 21:21:33 by yunslee          ###   ########.fr       */
+/*   Created: 2021/03/08 21:19:28 by hyojlee           #+#    #+#             */
+/*   Updated: 2022/06/09 14:39:53 by hyojlee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "philo_bonus.h"
-#include <limits.h>
+#include "philo.h"
+// #include <limits.h>
 
 static int	ft_isblank(char c)
 {
