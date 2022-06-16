@@ -1,22 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_atoi.c                                          :+:      :+:    :+:   */
+/*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hyojlee <hyojlee@student.42seoul.kr>       +#+  +:+       +#+        */
+/*   By: hyojlee <hyojlee@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/03/08 21:19:28 by hyojlee           #+#    #+#             */
-/*   Updated: 2022/06/09 14:39:53 by hyojlee          ###   ########.fr       */
+/*   Created: 2022/06/15 20:47:30 by hyojlee           #+#    #+#             */
+/*   Updated: 2022/06/15 20:52:25 by hyojlee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
-// #include <limits.h>
 
 static int	ft_isblank(char c)
 {
 	if (c == ' ' || c == '\n' || c == '\r'
-			|| c == '\v' || c == '\f' || c == '\t')
+		|| c == '\v' || c == '\f' || c == '\t')
 		return (1);
 	return (0);
 }
@@ -28,7 +27,14 @@ static int	ft_isdigit(char c)
 	return (0);
 }
 
-int			ft_atoi(const char *str)
+t_info	*info(void)
+{
+	static t_info	info;
+
+	return (&info);
+}
+
+int	ft_atoi(const char *str)
 {
 	char		*s;
 	long long	ret;
@@ -39,7 +45,7 @@ int			ft_atoi(const char *str)
 	flag = 1;
 	while (ft_isblank(*s) && *s)
 		s++;
-	if (*s == '-' || *s == '+')
+	if ((*s == '-') || (*s == '+'))
 		if (*s++ == '-')
 			flag *= -1;
 	while (ft_isdigit(*s))
@@ -55,4 +61,12 @@ int			ft_atoi(const char *str)
 		s++;
 	}
 	return (ret * flag);
+}
+
+void	free_all(t_philo *philos)
+{
+	free(philos);
+	free(info()->forks);
+	if (info()->meal_full)
+		free(info()->full_list);
 }

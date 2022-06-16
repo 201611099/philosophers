@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   philo.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hyojlee <hyojlee@student.42seoul.kr>       +#+  +:+       +#+        */
+/*   By: hyojlee <hyojlee@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/08 21:10:20 by hyojlee           #+#    #+#             */
-/*   Updated: 2022/06/09 14:39:53 by hyojlee          ###   ########.fr       */
+/*   Updated: 2022/06/15 20:52:33 by hyojlee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,23 +73,16 @@ int				g_philo_num;
 int				start(t_philo *philos, t_info *info);
 int				main(int argc, char *argv[]);
 void			*test(void *param);
-void			free_all(t_philo *philos);
 
 /*
 ** setting.c
 */
-t_info			*info(void);
 int				set_info_argv(t_info *info, int argc, char *argv[]);
 void			mutex_fork_init(t_info *info); //존재하지 않음.
 int				mutex_init(t_info *info);
 void			print_info(t_info *info);
 int				set_info(t_info *info);
 int				set_philos(t_philo *philos);
-
-/*
-** ft_atoi.c
-*/
-int				ft_atoi(const char *str);
 
 /*
 ** time.c
@@ -110,9 +103,15 @@ int				print_doing(t_status status, t_philo *philo);
 int				is_all_philos_full();
 // int				is_all_philos_full(t_philo *philo);
 
-
 /*
 ** do_eat.c
 */
 int				eat(t_philo *philo, t_info *info);
+
+/*
+** utils.c
+*/
+t_info			*info(void);
+int				ft_atoi(const char *str);
+void			free_all(t_philo *philo);
 #endif

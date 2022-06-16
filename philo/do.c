@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   do.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hyojlee <hyojlee@student.42seoul.kr>       +#+  +:+       +#+        */
+/*   By: hyojlee <hyojlee@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/08 21:01:14 by hyojlee           #+#    #+#             */
-/*   Updated: 2022/06/09 14:39:53 by hyojlee          ###   ########.fr       */
+/*   Updated: 2022/06/15 20:46:48 by hyojlee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-int		print_doing(t_status status, t_philo *philo)
+int	print_doing(t_status status, t_philo *philo)
 {
 	// NOTE 이 함수에서 printf는 이런 것들이 호출 됬음. 적절한 조건문을 활용하길 바람.
 	/*
@@ -42,7 +42,7 @@ int		print_doing(t_status status, t_philo *philo)
 	return (CONTINUE);
 }
 
-int		doing(t_status status, t_philo *philo, unsigned long interval)
+int	doing(t_status status, t_philo *philo, unsigned long interval)
 {
 	int				ret;
 	unsigned long	times;

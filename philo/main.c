@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hyojlee <hyojlee@student.42seoul.kr>       +#+  +:+       +#+        */
+/*   By: hyojlee <hyojlee@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/08 21:15:00 by hyojlee           #+#    #+#             */
-/*   Updated: 2022/06/09 14:39:53 by hyojlee          ###   ########.fr       */
+/*   Updated: 2022/06/15 20:54:17 by hyojlee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,13 +62,13 @@ int	main(int argc, char *argv[])
 {
 	t_philo	*philos;
 
-	if (-1 == set_info_argv(info(), argc, argv))
+	if (END == set_info_argv(info(), argc, argv))
 	{
 		printf("error\n");
 		return (-1);
 	}
 	// NOTE Setting
-	if (set_info(info()) == END)
+	if (END == set_info(info()))
 		return (-1);
 	g_philo_num = info()->number_of_philosophers;
 	philos = (t_philo *)malloc(sizeof(t_philo) * g_philo_num);
@@ -86,12 +86,4 @@ int	main(int argc, char *argv[])
 	start(philos, info());
 	free_all(philos);
 	return (0);
-}
-
-void	free_all(t_philo *philos)
-{
-	free(philos);
-	free(info()->forks);
-	if (info()->meal_full)
-		free(info()->full_list);
 }

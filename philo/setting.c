@@ -3,27 +3,20 @@
 /*                                                        :::      ::::::::   */
 /*   setting.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hyojlee <hyojlee@student.42seoul.kr>       +#+  +:+       +#+        */
+/*   By: hyojlee <hyojlee@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/08 21:15:14 by hyojlee           #+#    #+#             */
-/*   Updated: 2022/06/09 14:39:53 by hyojlee          ###   ########.fr       */
+/*   Updated: 2022/06/15 20:50:45 by hyojlee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 // #include <limits.h>
 
-t_info	*info(void)
-{
-	static t_info	info;
-
-	return (&info);
-}
-
 // NOTE argv 에러처리, argv 값을 t_info에 넣어줌
 int	set_info_argv(t_info *info, int argc, char *argv[])
 {
-	if (argc != 5 && argc != 6)
+	if (argc < 5 || argc > 6)
 		return (END);
 	info->number_of_philosophers = ft_atoi(argv[1]);
 	info->time_to_die = ft_atoi(argv[2]);

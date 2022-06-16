@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: hyojlee <hyojlee@student.42seoul.kr>       +#+  +:+       +#+         #
+#    By: hyojlee <hyojlee@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/06/09 14:39:28 by hyojlee           #+#    #+#              #
-#    Updated: 2022/06/09 14:39:28 by hyojlee          ###   ########.fr        #
+#    Updated: 2022/06/15 20:52:47 by hyojlee          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,8 +14,12 @@ CC = gcc
 # CFLAGS = -g3 -fsanitize=address
 CFLAGS = -Wall -Wextra -Werror
 NAME = philo
-SRCS = do_eat.c do.c main.c setting.c time.c \
-		ft_atoi.c
+SRCS = do_eat.c		\
+		do.c		\
+		main.c		\
+		setting.c	\
+		time.c		\
+		utils.c
 OBJS = $(SRCS:%.c=%.o)
 
 all : $(NAME)
