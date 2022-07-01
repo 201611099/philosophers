@@ -6,7 +6,7 @@
 /*   By: hyojlee <hyojlee@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/08 21:15:00 by hyojlee           #+#    #+#             */
-/*   Updated: 2022/07/01 16:01:44 by hyojlee          ###   ########.fr       */
+/*   Updated: 2022/07/01 16:40:56 by hyojlee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,13 +70,7 @@ int	main(int argc, char *argv[])
 		return (-1);
 	philos = (t_philo *)malloc(sizeof(t_philo) * info()->num_of_philos);
 	if (!philos)
-	{
 		return (free_info(-1));
-		// free(info()->forks);
-		// if (info()->meal_full)
-		// 	free(info()->full_list);
-		// return (-1);
-	}
 	set_philos(philos);
 	// NOTE Setting
 

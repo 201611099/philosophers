@@ -6,7 +6,7 @@
 /*   By: hyojlee <hyojlee@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/15 20:47:30 by hyojlee           #+#    #+#             */
-/*   Updated: 2022/07/01 16:00:43 by hyojlee          ###   ########.fr       */
+/*   Updated: 2022/07/01 16:54:44 by hyojlee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,9 +66,7 @@ int	free_info(int ret)
 
 int	free_all(t_philo *philos)
 {
+	mutex_destroy(info()->num_of_philos);
 	free(philos);
 	return (free_info(END));
-	// free(info()->forks);
-	// if (info()->meal_full)
-	// 	free(info()->full_list);
 }

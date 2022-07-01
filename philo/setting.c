@@ -6,7 +6,7 @@
 /*   By: hyojlee <hyojlee@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/08 21:15:14 by hyojlee           #+#    #+#             */
-/*   Updated: 2022/07/01 15:59:56 by hyojlee          ###   ########.fr       */
+/*   Updated: 2022/07/01 16:54:05 by hyojlee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,34 +75,5 @@ int	set_philos(t_philo *philos)
 		philos[i].right_fork_num = (i + 1) % info()->num_of_philos;
 	}
 	info()->philos = philos;
-	return (CONTINUE);
-}
-
-// NOTE (info->forks)포크에 대해서 하나씩 mutex_init 해주고, 
-// (info->print_mutex)print에 대해서도 mutex_init 해준다.
-int	mutex_init(void)
-{
-	int	idx;
-
-	idx = 0;
-	if (pthread_mutex_init(&(info()->print_mutex), NULL))
-	{
-		return (free_info(END));
-		// free(info()->forks);
-		// if (info()->meal_full)
-		// 	free(info()->full_list);
-		// return (END);
-	}
-	while (idx < info()->num_of_philos)
-	{
-		if (pthread_mutex_init(&(info()->forks[idx++]), NULL))
-		{
-			return (free_info(END));
-			// free(info()->forks);
-			// if (info()->meal_full)
-			// 	free(info()->full_list);
-			// return (END);
-		}
-	}
 	return (CONTINUE);
 }

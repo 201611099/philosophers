@@ -6,7 +6,7 @@
 /*   By: hyojlee <hyojlee@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/08 21:10:20 by hyojlee           #+#    #+#             */
-/*   Updated: 2022/07/01 16:00:53 by hyojlee          ###   ########.fr       */
+/*   Updated: 2022/07/01 16:52:18 by hyojlee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,6 @@ void			*test(void *param);
 t_info			*info(void);
 int				set_info_argv(int argc, char *argv[]);
 int				set_info(void);
-int				mutex_init(void);
 int				set_philos(t_philo *philos);
 
 void			mutex_fork_init(t_info *info); //존재하지 않음.
@@ -112,4 +111,11 @@ int				eat(t_philo *philo, t_info *info);
 int				ft_atoi(const char *str);
 int				free_info(int ret);
 int				free_all(t_philo *philo);
+
+/*
+** mutex.c
+*/
+int				mutex_init(void);
+void			mutex_destroy(int fork_idx);
+
 #endif
