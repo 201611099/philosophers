@@ -6,7 +6,7 @@
 /*   By: hyojlee <hyojlee@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/08 21:01:14 by hyojlee           #+#    #+#             */
-/*   Updated: 2022/06/15 20:46:48 by hyojlee          ###   ########.fr       */
+/*   Updated: 2022/07/01 15:38:22 by hyojlee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,13 +72,13 @@ int	is_all_philos_full()
 	i = 0;
 	if (info()->meal_full == 0)
 		return (FALSE);
-	while (info()->meal_full > 0 && i < info()->number_of_philosophers)
+	while (info()->meal_full > 0 && i < info()->num_of_philos)
 	{
 		if (info()->full_list[i] == 0)
 			break ;
 		i++;
 	}
-	if (i == info()->number_of_philosophers)
+	if (i == info()->num_of_philos)
 	{
 		// info()->anyone_dead = TRUE;
 		// printf("\x1b[35mEnd of meal\n\x1b[0m");

@@ -6,7 +6,7 @@
 /*   By: hyojlee <hyojlee@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/08 21:15:00 by hyojlee           #+#    #+#             */
-/*   Updated: 2022/06/15 20:54:17 by hyojlee          ###   ########.fr       */
+/*   Updated: 2022/07/01 16:01:44 by hyojlee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,47 +14,45 @@
 
 void	*monitor_whole(void *param)
 {
-	t_info	*info;
-
-	info = (t_info *)param;
+	param = NULL;
 	while (1)
 	{
-		if (info->anyone_dead == TRUE)
+		if (info()->anyone_dead == TRUE)
 			break ;
 		if (is_all_philos_full() == TRUE)
 		{
-			info->anyone_dead = TRUE;
-			pthread_mutex_lock(&(info->print_mutex));
+			info()->anyone_dead = TRUE;
+			pthread_mutex_lock(&(info()->print_mutex));
 			printf("\x1b[35m%lums End of meal\n\x1b[0m", get_relative_time());
-			pthread_mutex_unlock(&(info->print_mutex));
+			pthread_mutex_unlock(&(info()->print_mutex));
 			break ;
 		}
 	}
 	return (0);
 }
 
-int	start(t_philo *philos, t_info *info)
+static int	start(t_philo *philos)
 {
-	int			i;
+	int			idx;
 	pthread_t	monitor;
 
-	i = 0;
-	if (mutex_init(info) == END)
+	idx = 0;
+	if (END == mutex_init())
 		return (END);
-	while (i < g_philo_num)
+	while (idx < info()->num_of_philos)
 	{
-		philos[i].when_eat = get_relative_time();
-		pthread_create(&philos[i].thread, NULL, philo_do, (void *)&philos[i]);
-		i++;
+		philos[idx].when_eat = get_relative_time();
+		pthread_create(&philos[idx].thread, NULL, philo_do, (void *)&philos[idx]);
+		idx++;
 	}
-	i = 0;
-	if (info->meal_full > 0)
+	idx = 0;
+	if (info()->meal_full > 0)
 	{
-		pthread_create(&monitor, NULL, monitor_whole, info);
+		pthread_create(&monitor, NULL, monitor_whole, NULL);
 		pthread_join(monitor, NULL);
 	}
-	while (i < g_philo_num)
-		pthread_join(philos[i++].thread, NULL);
+	while (idx < info()->num_of_philos)
+		pthread_join(philos[idx++].thread, NULL);
 	return (END);
 }
 
@@ -62,28 +60,27 @@ int	main(int argc, char *argv[])
 {
 	t_philo	*philos;
 
-	if (END == set_info_argv(info(), argc, argv))
+	if (END == set_info_argv(argc, argv))
 	{
 		printf("error\n");
 		return (-1);
 	}
 	// NOTE Setting
-	if (END == set_info(info()))
+	if (END == set_info())
 		return (-1);
-	g_philo_num = info()->number_of_philosophers;
-	philos = (t_philo *)malloc(sizeof(t_philo) * g_philo_num);
+	philos = (t_philo *)malloc(sizeof(t_philo) * info()->num_of_philos);
 	if (!philos)
 	{
-		free(info()->forks);
-		if (info()->meal_full)
-			free(info()->full_list);
-		return (-1);
+		return (free_info(-1));
+		// free(info()->forks);
+		// if (info()->meal_full)
+		// 	free(info()->full_list);
+		// return (-1);
 	}
 	set_philos(philos);
 	// NOTE Setting
 
 	// NOTE 시작
-	start(philos, info());
-	free_all(philos);
-	return (0);
+	start(philos);
+	return (free_all(philos));
 }

@@ -6,7 +6,7 @@
 /*   By: hyojlee <hyojlee@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/08 21:10:20 by hyojlee           #+#    #+#             */
-/*   Updated: 2022/06/15 20:52:33 by hyojlee          ###   ########.fr       */
+/*   Updated: 2022/07/01 16:00:53 by hyojlee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ typedef enum
 	DEAD
 }	t_status;
 
-struct s_info;
+// struct s_info;
 
 typedef struct	s_philo
 {
@@ -51,7 +51,7 @@ typedef struct	s_philo
 
 typedef struct	s_info
 {
-	int				number_of_philosophers;
+	int				num_of_philos;
 	unsigned long	time_to_die;
 	int				time_to_eat;
 	int				time_to_sleep;
@@ -64,25 +64,23 @@ typedef struct	s_info
 	t_philo			*philos;
 }				t_info;
 
-
-int				g_philo_num;
-
 /*
 ** main.c
 */
-int				start(t_philo *philos, t_info *info);
 int				main(int argc, char *argv[]);
 void			*test(void *param);
 
 /*
 ** setting.c
 */
-int				set_info_argv(t_info *info, int argc, char *argv[]);
-void			mutex_fork_init(t_info *info); //존재하지 않음.
-int				mutex_init(t_info *info);
-void			print_info(t_info *info);
-int				set_info(t_info *info);
+t_info			*info(void);
+int				set_info_argv(int argc, char *argv[]);
+int				set_info(void);
+int				mutex_init(void);
 int				set_philos(t_philo *philos);
+
+void			mutex_fork_init(t_info *info); //존재하지 않음.
+void			print_info(t_info *info);
 
 /*
 ** time.c
@@ -111,7 +109,7 @@ int				eat(t_philo *philo, t_info *info);
 /*
 ** utils.c
 */
-t_info			*info(void);
 int				ft_atoi(const char *str);
-void			free_all(t_philo *philo);
+int				free_info(int ret);
+int				free_all(t_philo *philo);
 #endif

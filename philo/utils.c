@@ -6,7 +6,7 @@
 /*   By: hyojlee <hyojlee@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/15 20:47:30 by hyojlee           #+#    #+#             */
-/*   Updated: 2022/06/15 20:52:25 by hyojlee          ###   ########.fr       */
+/*   Updated: 2022/07/01 16:00:43 by hyojlee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,13 +25,6 @@ static int	ft_isdigit(char c)
 	if (c >= '0' && c <= '9')
 		return (1);
 	return (0);
-}
-
-t_info	*info(void)
-{
-	static t_info	info;
-
-	return (&info);
 }
 
 int	ft_atoi(const char *str)
@@ -63,10 +56,19 @@ int	ft_atoi(const char *str)
 	return (ret * flag);
 }
 
-void	free_all(t_philo *philos)
+int	free_info(int ret)
 {
-	free(philos);
 	free(info()->forks);
 	if (info()->meal_full)
 		free(info()->full_list);
+	return (ret);
+}
+
+int	free_all(t_philo *philos)
+{
+	free(philos);
+	return (free_info(END));
+	// free(info()->forks);
+	// if (info()->meal_full)
+	// 	free(info()->full_list);
 }
