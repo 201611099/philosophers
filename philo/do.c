@@ -6,7 +6,7 @@
 /*   By: hyojlee <hyojlee@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/08 21:01:14 by hyojlee           #+#    #+#             */
-/*   Updated: 2022/07/02 15:25:56 by hyojlee          ###   ########.fr       */
+/*   Updated: 2022/07/02 15:59:52 by hyojlee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,28 +65,43 @@ int	doing(t_status status, t_philo *philo)
 	return (ret);
 }
 
-int	is_all_philos_full()
+int	is_all_philos_full(void)
 {
-	int i;
+	int idx;
 	
-	i = 0;
+	idx = 0;
 	if (info()->meal_full == 0)
 		return (FALSE);
-	while (info()->meal_full > 0 && i < info()->num_of_philos)
+	while (info()->meal_full > 0 && idx < info()->num_of_philos)
 	{
-		if (info()->full_list[i] == 0)
-			break ;
-		i++;
+		if (info()->full_list[idx] == 0)
+			return (FALSE);// break ;
+		idx++;
 	}
-	if (i == info()->num_of_philos)
-	{
-		// info()->anyone_dead = TRUE;
-		// printf("\x1b[35mEnd of meal\n\x1b[0m");
-		// doing(MEAL, philo, get_relative_time());
-		return (TRUE);
-	}
-	return (FALSE);
+	return (TRUE);
 }
+// int	is_all_philos_full()
+// {
+// 	int idx;
+	
+// 	idx = 0;
+// 	if (info()->meal_full == 0)
+// 		return (FALSE);
+// 	while (info()->meal_full > 0 && idx < info()->num_of_philos)
+// 	{
+// 		if (info()->full_list[idx] == 0)
+// 			break ;
+// 		idx++;
+// 	}
+// 	if (idx == info()->num_of_philos)
+// 	{
+// 		// info()->anyone_dead = TRUE;
+// 		// printf("\x1b[35mEnd of meal\n\x1b[0m");
+// 		// doing(MEAL, philo, get_relative_time());
+// 		return (TRUE);
+// 	}
+// 	return (FALSE);
+// }
 
 // 하나의 철학자에 대한 모니터링
 void	*monitoring(void *param)
@@ -123,7 +138,8 @@ void	*philo_do(void *param)
 
 	philo = (t_philo *)param;
 	pthread_create(&thread, NULL, monitoring, philo);
-	if (info()->num_of_philos > 1 && philo->whoami % 2)
+	// if (!(philo->whoami % 2))
+	if ((info()->num_of_philos > 1) && (philo->whoami % 2))
 		accurate_sleep(10);
 	// NOTE 먹고 자고 생각하고
 	while (1)
