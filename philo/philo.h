@@ -6,7 +6,7 @@
 /*   By: hyojlee <hyojlee@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/08 21:10:20 by hyojlee           #+#    #+#             */
-/*   Updated: 2022/07/01 19:10:47 by hyojlee          ###   ########.fr       */
+/*   Updated: 2022/07/02 22:23:39 by hyojlee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,9 @@
 # define TRUE 1
 # define END 0
 # define CONTINUE 1
+# define ERROR -1
+# define INT_MAX 2147483647
+# define INT_MIN -2147483648
 
 typedef enum
 {
@@ -55,7 +58,7 @@ typedef struct	s_info
 	unsigned long	time_to_die;
 	int				time_to_eat;
 	int				time_to_sleep;
-	int				meal_full;
+	int				num_of_meals;
 	unsigned long	basetime;
 	int				anyone_dead;
 	pthread_mutex_t	*forks;
@@ -68,7 +71,6 @@ typedef struct	s_info
 ** main.c
 */
 int				main(int argc, char *argv[]);
-void			*test(void *param);
 
 /*
 ** setting.c
@@ -77,9 +79,6 @@ t_info			*info(void);
 int				set_info_argv(int argc, char *argv[]);
 int				set_info(void);
 int				set_philos(t_philo *philos);
-
-void			mutex_fork_init(t_info *info); //존재하지 않음.
-void			print_info(t_info *info);
 
 /*
 ** time.c
@@ -92,12 +91,8 @@ void			accurate_sleep(unsigned long milisecond);
 /*
 ** do.c
 */
-void			*monitoring(void *param);
-int				doing(t_status status, t_philo *philo);
 void			*philo_do(void *param);
-int				print_doing(t_status status, t_philo *philo);
-int				is_all_philos_full();
-// int				is_all_philos_full(t_philo *philo);
+int				doing(t_status status, t_philo *philo);
 
 /*
 ** do_eat.c
@@ -107,7 +102,7 @@ int				eat(t_philo *philo);
 /*
 ** utils.c
 */
-int				ft_atoi(const char *str);
+int				ft_atoi(char *str, int *err);
 int				free_info(int ret);
 int				free_all(t_philo *philo);
 
@@ -116,5 +111,11 @@ int				free_all(t_philo *philo);
 */
 int				mutex_init(void);
 void			mutex_destroy(int fork_idx);
+
+/*
+** monitor.c
+*/
+void			*monitor_whole(void *param);
+void			*monitoring(void *param);
 
 #endif

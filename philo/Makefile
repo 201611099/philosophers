@@ -6,7 +6,7 @@
 #    By: hyojlee <hyojlee@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/06/09 14:39:28 by hyojlee           #+#    #+#              #
-#    Updated: 2022/07/01 19:08:46 by hyojlee          ###   ########.fr        #
+#    Updated: 2022/07/02 20:57:50 by hyojlee          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -20,6 +20,7 @@ SRCS = do_eat.c		\
 		setting.c	\
 		time.c		\
 		mutex.c		\
+		monitor.c		\
 		utils.c
 OBJS = $(SRCS:%.c=%.o)
 

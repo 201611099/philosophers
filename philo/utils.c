@@ -6,19 +6,11 @@
 /*   By: hyojlee <hyojlee@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/15 20:47:30 by hyojlee           #+#    #+#             */
-/*   Updated: 2022/07/01 16:54:44 by hyojlee          ###   ########.fr       */
+/*   Updated: 2022/07/02 22:24:06 by hyojlee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
-
-static int	ft_isblank(char c)
-{
-	if (c == ' ' || c == '\n' || c == '\r'
-		|| c == '\v' || c == '\f' || c == '\t')
-		return (1);
-	return (0);
-}
 
 static int	ft_isdigit(char c)
 {
@@ -27,39 +19,39 @@ static int	ft_isdigit(char c)
 	return (0);
 }
 
-int	ft_atoi(const char *str)
+int	ft_atoi(char *arg, int *err)
 {
-	char		*s;
-	long long	ret;
-	long long	flag;
+	int			idx;
+	long long	ret[2];
 
-	s = (char *)str;
-	ret = 0;
-	flag = 1;
-	while (ft_isblank(*s) && *s)
-		s++;
-	if ((*s == '-') || (*s == '+'))
-		if (*s++ == '-')
-			flag *= -1;
-	while (ft_isdigit(*s))
+	idx = 0;
+	ret[0] = 0;
+	ret[1] = 1;
+	while (arg[idx] == ' ')
+		idx++;
+	if (arg[idx] == '-')
+		ret[1] = -1;
+	if (arg[idx] == '-' || arg[idx] == '+')
+		idx++;
+	while (arg[idx])
 	{
-		ret = ret * 10 + *s - '0';
-		if (ret < 0)
+		if (!ft_isdigit(arg[idx]))
 		{
-			if (flag < 0)
-				return (0);
-			else
-				return (-1);
+			if (arg[idx++] == ' ')
+				continue ;
+			*err = ERROR;
 		}
-		s++;
+		ret[0] = ret[0] * 10 + arg[idx++] - '0';
 	}
-	return (ret * flag);
+	if (ret[0] * ret[1] > INT_MAX || ret[0] * ret[1] < INT_MIN)
+		*err = ERROR;
+	return ((int)(ret[0] * ret[1]));
 }
 
 int	free_info(int ret)
 {
 	free(info()->forks);
-	if (info()->meal_full)
+	if (info()->num_of_meals)
 		free(info()->full_list);
 	return (ret);
 }

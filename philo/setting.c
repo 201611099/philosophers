@@ -6,7 +6,7 @@
 /*   By: hyojlee <hyojlee@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/08 21:15:14 by hyojlee           #+#    #+#             */
-/*   Updated: 2022/07/02 13:55:55 by hyojlee          ###   ########.fr       */
+/*   Updated: 2022/07/02 22:25:34 by hyojlee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,18 +20,47 @@ t_info	*info(void)
 	return (&info);
 }
 
+static int valid_arg(int argc, int error)
+{
+	if (ERROR == error)
+	{
+		printf("error: invalid argument\n");
+		return (ERROR);
+	}
+	if (info()->num_of_philos < 0 || info()->time_to_die < 0
+		|| info()->time_to_eat < 0 || info()->time_to_sleep < 0)
+	{
+		printf("error: invalid argument\n");
+		return (ERROR);
+	}
+	if (6 == argc)
+	{
+		if (info()->num_of_meals < 0)
+			return (ERROR);
+		else if (info()->num_of_meals == 0)
+			return (END);
+	}
+	return (CONTINUE);
+}
+
 // NOTE argv 에러처리, argv 값을 t_info에 넣어줌
 int	set_info_argv(int argc, char *argv[])
 {
+	int	error;
+
+	error = 0;
 	if (argc < 5 || argc > 6)
-		return (END);
-	info()->num_of_philos = ft_atoi(argv[1]);
-	info()->time_to_die = ft_atoi(argv[2]);
-	info()->time_to_eat = ft_atoi(argv[3]);
-	info()->time_to_sleep = ft_atoi(argv[4]);
+	{
+		printf("error: invalid argument\n");
+		return (ERROR);
+	}
+	info()->num_of_philos = ft_atoi(argv[1], &error);
+	info()->time_to_die = ft_atoi(argv[2], &error);
+	info()->time_to_eat = ft_atoi(argv[3], &error);
+	info()->time_to_sleep = ft_atoi(argv[4], &error);
 	if (argc == 6)
-		info()->meal_full = ft_atoi(argv[5]);
-	return (CONTINUE);
+		info()->num_of_meals = ft_atoi(argv[5], &error);
+	return (valid_arg(argc, error));
 }
 
 // NOTE forks, basetime, anyone_dead, full_list을 초기화 해줌.
@@ -45,7 +74,7 @@ int	set_info(void)
 			* info()->num_of_philos);
 	if (!info()->forks)
 		return (END);
-	if (info()->meal_full > 0)
+	if (info()->num_of_meals > 0)
 	{
 		info()->full_list = (int *)malloc(sizeof(int) * info()->num_of_philos);
 		if (!info()->full_list)

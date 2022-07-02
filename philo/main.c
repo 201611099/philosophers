@@ -6,30 +6,11 @@
 /*   By: hyojlee <hyojlee@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/08 21:15:00 by hyojlee           #+#    #+#             */
-/*   Updated: 2022/07/01 16:40:56 by hyojlee          ###   ########.fr       */
+/*   Updated: 2022/07/02 22:28:00 by hyojlee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
-
-void	*monitor_whole(void *param)
-{
-	param = NULL;
-	while (1)
-	{
-		if (info()->anyone_dead == TRUE)
-			break ;
-		if (is_all_philos_full() == TRUE)
-		{
-			info()->anyone_dead = TRUE;
-			pthread_mutex_lock(&(info()->print_mutex));
-			printf("\x1b[35m%lums End of meal\n\x1b[0m", get_relative_time());
-			pthread_mutex_unlock(&(info()->print_mutex));
-			break ;
-		}
-	}
-	return (0);
-}
 
 static int	start(t_philo *philos)
 {
@@ -46,7 +27,7 @@ static int	start(t_philo *philos)
 		idx++;
 	}
 	idx = 0;
-	if (info()->meal_full > 0)
+	if (info()->num_of_meals > 0)
 	{
 		pthread_create(&monitor, NULL, monitor_whole, NULL);
 		pthread_join(monitor, NULL);
@@ -59,15 +40,17 @@ static int	start(t_philo *philos)
 int	main(int argc, char *argv[])
 {
 	t_philo	*philos;
+	int		chk_arg;
 
-	if (END == set_info_argv(argc, argv))
-	{
-		printf("error\n");
-		return (-1);
-	}
+	chk_arg = set_info_argv(argc, argv);
+	if (CONTINUE != chk_arg)
+		return (chk_arg);
 	// NOTE Setting
 	if (END == set_info())
-		return (-1);
+	{
+		printf("error\n");
+		return (ERROR);
+	}
 	philos = (t_philo *)malloc(sizeof(t_philo) * info()->num_of_philos);
 	if (!philos)
 		return (free_info(-1));
