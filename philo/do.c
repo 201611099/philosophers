@@ -6,7 +6,7 @@
 /*   By: hyojlee <hyojlee@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/08 21:01:14 by hyojlee           #+#    #+#             */
-/*   Updated: 2022/07/01 19:13:18 by hyojlee          ###   ########.fr       */
+/*   Updated: 2022/07/02 14:35:59 by hyojlee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,9 +107,11 @@ void	*monitoring(void *param)
 		if (philo->when_eat + info()->time_to_die < get_relative_time())
 		{
 			doing(DEAD, philo);
+			if (2 > info()->num_of_philos)
+				pthread_mutex_unlock(&(info()->forks[philo->left_fork_num]));
 			return (0);
 		}
-		accurate_sleep(3);
+		usleep(200); //accurate_sleep(3);
 	}
 }
 
@@ -122,7 +124,7 @@ void	*philo_do(void *param)
 	philo = (t_philo *)param;
 	pthread_create(&thread, NULL, monitoring, philo);
 	if (philo->whoami % 2)
-		accurate_sleep(3);
+		usleep(200); // accurate_sleep(3);
 	// NOTE 먹고 자고 생각하고
 	while (1)
 	{
