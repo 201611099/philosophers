@@ -6,7 +6,7 @@
 /*   By: hyojlee <hyojlee@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/08 21:01:14 by hyojlee           #+#    #+#             */
-/*   Updated: 2022/07/02 14:35:59 by hyojlee          ###   ########.fr       */
+/*   Updated: 2022/07/02 15:25:56 by hyojlee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,7 +111,7 @@ void	*monitoring(void *param)
 				pthread_mutex_unlock(&(info()->forks[philo->left_fork_num]));
 			return (0);
 		}
-		usleep(200); //accurate_sleep(3);
+		accurate_sleep(2);
 	}
 }
 
@@ -123,8 +123,8 @@ void	*philo_do(void *param)
 
 	philo = (t_philo *)param;
 	pthread_create(&thread, NULL, monitoring, philo);
-	if (philo->whoami % 2)
-		usleep(200); // accurate_sleep(3);
+	if (info()->num_of_philos > 1 && philo->whoami % 2)
+		accurate_sleep(10);
 	// NOTE 먹고 자고 생각하고
 	while (1)
 	{
