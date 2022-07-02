@@ -6,7 +6,7 @@
 /*   By: hyojlee <hyojlee@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/08 21:15:14 by hyojlee           #+#    #+#             */
-/*   Updated: 2022/07/01 16:54:05 by hyojlee          ###   ########.fr       */
+/*   Updated: 2022/07/02 13:55:55 by hyojlee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,17 +62,16 @@ int	set_info(void)
 // NOTE 철학자에 대한 정보 초기화 t_philo에 있는 값들 설정하기 
 int	set_philos(t_philo *philos)
 {
-	unsigned long	init_time;
-	int				i;
+	int	idx;
 
-	i = -1;
-	while (++i < info()->num_of_philos)
+	idx = -1;
+	while (++idx < info()->num_of_philos)
 	{
 		// t_philo[i]의 멤버 값들 설정하기
-		memset(&(philos[i]), 0, sizeof(t_philo));
-		philos[i].whoami = i + 1;
-		philos[i].left_fork_num = i;
-		philos[i].right_fork_num = (i + 1) % info()->num_of_philos;
+		memset(&(philos[idx]), 0, sizeof(t_philo));
+		philos[idx].whoami = idx + 1;
+		philos[idx].left_fork_num = idx;
+		philos[idx].right_fork_num = (idx + 1) % info()->num_of_philos;
 	}
 	info()->philos = philos;
 	return (CONTINUE);

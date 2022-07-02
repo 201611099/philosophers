@@ -6,7 +6,7 @@
 /*   By: hyojlee <hyojlee@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/08 21:01:14 by hyojlee           #+#    #+#             */
-/*   Updated: 2022/07/01 15:38:22 by hyojlee          ###   ########.fr       */
+/*   Updated: 2022/07/01 19:13:18 by hyojlee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ int	print_doing(t_status status, t_philo *philo)
 	return (CONTINUE);
 }
 
-int	doing(t_status status, t_philo *philo, unsigned long interval)
+int	doing(t_status status, t_philo *philo)
 {
 	int				ret;
 	unsigned long	times;
@@ -92,7 +92,6 @@ int	is_all_philos_full()
 void	*monitoring(void *param)
 {
 	t_philo			*philo;
-	unsigned long	time;
 
 	philo = (t_philo *)param;
 	
@@ -107,7 +106,7 @@ void	*monitoring(void *param)
 		// 3. 시간 계산을 해서, 현재 이 모니터함수가 관찰하고 있는 철학자가 죽었다면, dead 출력 후 break;
 		if (philo->when_eat + info()->time_to_die < get_relative_time())
 		{
-			doing(DEAD, philo, get_relative_time());
+			doing(DEAD, philo);
 			return (0);
 		}
 		accurate_sleep(3);
@@ -122,21 +121,20 @@ void	*philo_do(void *param)
 
 	philo = (t_philo *)param;
 	pthread_create(&thread, NULL, monitoring, philo);
-
 	if (philo->whoami % 2)
 		accurate_sleep(3);
 	// NOTE 먹고 자고 생각하고
 	while (1)
 	{
 		// 1. 먹고
-		if (eat(philo, info()) == END)
+		if (eat(philo) == END)
 			break ;
 		// 2. 자고
-		if (doing(SLEEPING, philo, get_relative_time()) == END)
+		if (doing(SLEEPING, philo) == END)
 			break ;
 		spend_time_of(SLEEPING);
 		// 3. 생각하고
-		if (doing(THINKING, philo, get_relative_time()) == END)
+		if (doing(THINKING, philo) == END)
 			break;
 	}
 	pthread_join(thread, NULL);

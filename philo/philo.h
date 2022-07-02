@@ -6,7 +6,7 @@
 /*   By: hyojlee <hyojlee@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/08 21:10:20 by hyojlee           #+#    #+#             */
-/*   Updated: 2022/07/01 16:52:18 by hyojlee          ###   ########.fr       */
+/*   Updated: 2022/07/01 19:10:47 by hyojlee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,9 +92,8 @@ void			accurate_sleep(unsigned long milisecond);
 /*
 ** do.c
 */
-int				eat(t_philo *philo, t_info *info);
 void			*monitoring(void *param);
-int				doing(t_status status, t_philo *philo, unsigned long interval);
+int				doing(t_status status, t_philo *philo);
 void			*philo_do(void *param);
 int				print_doing(t_status status, t_philo *philo);
 int				is_all_philos_full();
@@ -103,7 +102,7 @@ int				is_all_philos_full();
 /*
 ** do_eat.c
 */
-int				eat(t_philo *philo, t_info *info);
+int				eat(t_philo *philo);
 
 /*
 ** utils.c
