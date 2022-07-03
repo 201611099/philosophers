@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "./philo.h"
+#include "philo.h"
 
 // NOTE (info->forks)포크에 대해서 하나씩 mutex_init 해주고, 
 // (info->print_mutex)print에 대해서도 mutex_init 해준다.

@@ -55,6 +55,6 @@ void	accurate_sleep(unsigned long milisecond)
 		cur = get_absolute_time();
 		if (milisecond < cur - base)
 			return ;
-		usleep(200);
+		usleep(500);
 	}
 }

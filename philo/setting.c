@@ -11,7 +11,6 @@
 /* ************************************************************************** */
 
 #include "philo.h"
-// #include <limits.h>
 
 t_info	*info(void)
 {
@@ -24,13 +23,13 @@ static int valid_arg(int argc, int error)
 {
 	if (ERROR == error)
 	{
-		printf("error: invalid argument\n");
+		printf("\x1b[31merror: invalid argument\n\x1b[0m");
 		return (ERROR);
 	}
 	if (info()->num_of_philos < 0 || info()->time_to_die < 0
 		|| info()->time_to_eat < 0 || info()->time_to_sleep < 0)
 	{
-		printf("error: invalid argument\n");
+		printf("\x1b[31merror: invalid argument\n\x1b[0m");
 		return (ERROR);
 	}
 	if (6 == argc)
@@ -51,7 +50,7 @@ int	set_info_argv(int argc, char *argv[])
 	error = 0;
 	if (argc < 5 || argc > 6)
 	{
-		printf("error: invalid argument\n");
+		printf("\x1b[31merror: invalid argument\n\x1b[0m");
 		return (ERROR);
 	}
 	info()->num_of_philos = ft_atoi(argv[1], &error);
