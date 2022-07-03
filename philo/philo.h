@@ -19,7 +19,6 @@
 # include <pthread.h>
 # include <string.h>
 # include <stdio.h>
-# include <stdbool.h>
 
 # define FALSE 0
 # define TRUE 1
