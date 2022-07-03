@@ -23,7 +23,8 @@ static int	start(t_philo *philos)
 	while (idx < info()->num_of_philos)
 	{
 		philos[idx].when_eat = get_relative_time();
-		pthread_create(&philos[idx].thread, NULL, philo_do, (void *)&philos[idx]);
+		pthread_create(&philos[idx].thread, NULL,
+			philo_do, (void *)&philos[idx]);
 		idx++;
 	}
 	idx = 0;
@@ -45,19 +46,15 @@ int	main(int argc, char *argv[])
 	chk_arg = set_info_argv(argc, argv);
 	if (CONTINUE != chk_arg)
 		return (chk_arg);
-	// NOTE Setting
 	if (END == set_info())
 	{
-		printf("error\n");
+		printf("\x1b[31merror\n\x1b[0m");
 		return (ERROR);
 	}
 	philos = (t_philo *)malloc(sizeof(t_philo) * info()->num_of_philos);
 	if (!philos)
 		return (free_info(-1));
 	set_philos(philos);
-	// NOTE Setting
-
-	// NOTE 시작
 	start(philos);
 	return (free_all(philos));
 }

@@ -11,7 +11,6 @@
 # **************************************************************************** #
 
 CC = cc
-# CFLAGS = -g3 -fsanitize=address
 CFLAGS = -Wall -Wextra -Werror
 NAME = philo
 SRCS = do_eat.c		\

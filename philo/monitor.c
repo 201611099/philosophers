@@ -15,7 +15,7 @@
 static int	is_all_philos_full(void)
 {
 	int	idx;
-	
+
 	idx = 0;
 	if (info()->num_of_meals == 0)
 		return (FALSE);
@@ -26,12 +26,7 @@ static int	is_all_philos_full(void)
 		idx++;
 	}
 	if (idx == info()->num_of_philos)
-	{
-		// info()->anyone_dead = TRUE;
-		// printf("\x1b[35mEnd of meal\n\x1b[0m");
-		// doing(MEAL, philo, get_relative_time());
 		return (TRUE);
-	}
 	return (FALSE);
 }
 
@@ -54,22 +49,15 @@ void	*monitor_whole(void *param)
 	return (0);
 }
 
-// 하나의 철학자에 대한 모니터링
 void	*monitoring(void *param)
 {
 	t_philo	*philo;
 
 	philo = (t_philo *)param;
-	
 	while (1)
 	{
-		// NOTE 확인해야하는 것
-		// 1. 어느 한명이라도 죽었다면, break; (내가 아니더라도, 누군가 죽었으면 Stop!)
 		if (info()->anyone_dead == TRUE)
 			return (0);
-		// 2. 인자가 주어진 경우 모든 철학자가 밥을 먹었으면, break;
-
-		// 3. 시간 계산을 해서, 현재 이 모니터함수가 관찰하고 있는 철학자가 죽었다면, dead 출력 후 break;
 		if (philo->when_eat + info()->time_to_die < get_relative_time())
 		{
 			doing(DEAD, philo);

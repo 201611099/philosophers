@@ -29,7 +29,7 @@
 # define INT_MAX 2147483647
 # define INT_MIN -2147483648
 
-typedef enum
+typedef enum e_status
 {
 	EATING = 0,
 	SLEEPING,
@@ -39,9 +39,7 @@ typedef enum
 	DEAD
 }	t_status;
 
-// struct s_info;
-
-typedef struct	s_philo
+typedef struct s_philo
 {
 	pthread_t		thread;
 	int				whoami;
@@ -49,10 +47,9 @@ typedef struct	s_philo
 	int				left_fork_num;
 	int				right_fork_num;
 	int				meal_num;
-	//struct s_info	*info;
 }				t_philo;
 
-typedef struct	s_info
+typedef struct s_info
 {
 	int				num_of_philos;
 	unsigned long	time_to_die;
@@ -63,7 +60,7 @@ typedef struct	s_info
 	int				anyone_dead;
 	pthread_mutex_t	*forks;
 	pthread_mutex_t	print_mutex;
-	int				*full_list; //다 먹은 철학자 판별해주는 역할(?)
+	int				*full_list;
 	t_philo			*philos;
 }				t_info;
 
@@ -83,8 +80,8 @@ int				set_philos(t_philo *philos);
 /*
 ** time.c
 */
-unsigned long	get_relative_time();
-unsigned long	get_absolute_time();
+unsigned long	get_relative_time(void);
+unsigned long	get_absolute_time(void);
 int				spend_time_of(t_status doing);
 void			accurate_sleep(unsigned long milisecond);
 

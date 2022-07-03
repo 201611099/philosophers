@@ -19,7 +19,7 @@ t_info	*info(void)
 	return (&info);
 }
 
-static int valid_arg(int argc, int error)
+static int	valid_arg(int argc, int error)
 {
 	if (ERROR == error)
 	{
@@ -42,7 +42,6 @@ static int valid_arg(int argc, int error)
 	return (CONTINUE);
 }
 
-// NOTE argv 에러처리, argv 값을 t_info에 넣어줌
 int	set_info_argv(int argc, char *argv[])
 {
 	int	error;
@@ -53,16 +52,15 @@ int	set_info_argv(int argc, char *argv[])
 		printf("\x1b[31merror: invalid argument\n\x1b[0m");
 		return (ERROR);
 	}
-	info()->num_of_philos = ft_atoi(argv[1], &error);
-	info()->time_to_die = ft_atoi(argv[2], &error);
-	info()->time_to_eat = ft_atoi(argv[3], &error);
-	info()->time_to_sleep = ft_atoi(argv[4], &error);
+	(info())->num_of_philos = ft_atoi(argv[1], &error);
+	(info())->time_to_die = ft_atoi(argv[2], &error);
+	(info())->time_to_eat = ft_atoi(argv[3], &error);
+	(info())->time_to_sleep = ft_atoi(argv[4], &error);
 	if (argc == 6)
-		info()->num_of_meals = ft_atoi(argv[5], &error);
+		(info())->num_of_meals = ft_atoi(argv[5], &error);
 	return (valid_arg(argc, error));
 }
 
-// NOTE forks, basetime, anyone_dead, full_list을 초기화 해줌.
 int	set_info(void)
 {
 	int	i;
@@ -70,7 +68,7 @@ int	set_info(void)
 	i = 0;
 	info()->basetime = get_absolute_time();
 	info()->forks = (pthread_mutex_t *)malloc(sizeof(pthread_mutex_t)
-			* info()->num_of_philos);
+		* info()->num_of_philos);
 	if (!info()->forks)
 		return (END);
 	if (info()->num_of_meals > 0)
@@ -87,7 +85,6 @@ int	set_info(void)
 	return (CONTINUE);
 }
 
-// NOTE 철학자에 대한 정보 초기화 t_philo에 있는 값들 설정하기 
 int	set_philos(t_philo *philos)
 {
 	int	idx;
@@ -95,7 +92,6 @@ int	set_philos(t_philo *philos)
 	idx = -1;
 	while (++idx < info()->num_of_philos)
 	{
-		// t_philo[i]의 멤버 값들 설정하기
 		memset(&(philos[idx]), 0, sizeof(t_philo));
 		philos[idx].whoami = idx + 1;
 		philos[idx].left_fork_num = idx;
