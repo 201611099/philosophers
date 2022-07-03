@@ -56,9 +56,9 @@ int	free_info(int ret)
 	return (ret);
 }
 
-int	free_all(t_philo *philos)
+int	free_all(t_philo *philos, int ret)
 {
 	mutex_destroy(info()->num_of_philos);
 	free(philos);
-	return (free_info(END));
+	return (free_info(ret));
 }

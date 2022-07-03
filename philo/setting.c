@@ -35,7 +35,10 @@ static int	valid_arg(int argc, int error)
 	if (6 == argc)
 	{
 		if (info()->num_of_meals < 0)
+		{
+			printf("\x1b[31merror: invalid argument\n\x1b[0m");
 			return (ERROR);
+		}
 		else if (info()->num_of_meals == 0)
 			return (END);
 	}
@@ -49,14 +52,15 @@ int	set_info_argv(int argc, char *argv[])
 	error = 0;
 	if (argc < 5 || argc > 6)
 	{
-		printf("\x1b[31merror: invalid argument\n\x1b[0m");
+		printf("usage: ./philo number_of_philosophers time_to_die time_to_eat");
+		printf(" time_to_sleep [number_of_times_each_philosopher_must_eat]\n");
 		return (ERROR);
 	}
 	(info())->num_of_philos = ft_atoi(argv[1], &error);
 	(info())->time_to_die = ft_atoi(argv[2], &error);
 	(info())->time_to_eat = ft_atoi(argv[3], &error);
 	(info())->time_to_sleep = ft_atoi(argv[4], &error);
-	if (argc == 6)
+	if (6 == argc)
 		(info())->num_of_meals = ft_atoi(argv[5], &error);
 	return (valid_arg(argc, error));
 }
@@ -85,7 +89,7 @@ int	set_info(void)
 	return (CONTINUE);
 }
 
-int	set_philos(t_philo *philos)
+void	set_philos(t_philo *philos)
 {
 	int	idx;
 
@@ -98,5 +102,4 @@ int	set_philos(t_philo *philos)
 		philos[idx].right_fork_num = (idx + 1) % info()->num_of_philos;
 	}
 	info()->philos = philos;
-	return (CONTINUE);
 }

@@ -74,7 +74,7 @@ int				main(int argc, char *argv[]);
 t_info			*info(void);
 int				set_info_argv(int argc, char *argv[]);
 int				set_info(void);
-int				set_philos(t_philo *philos);
+void			set_philos(t_philo *philos);
 
 /*
 ** time.c
@@ -100,7 +100,7 @@ int				eat(t_philo *philo);
 */
 int				ft_atoi(char *str, int *err);
 int				free_info(int ret);
-int				free_all(t_philo *philo);
+int				free_all(t_philo *philo, int ret);
 
 /*
 ** mutex.c

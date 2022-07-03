@@ -18,13 +18,13 @@ int	mutex_init(void)
 
 	idx = 0;
 	if (pthread_mutex_init(&(info()->print_mutex), NULL))
-		return (free_info(END));
+		return (free_info(ERROR));
 	while (idx < info()->num_of_philos)
 	{
 		if (pthread_mutex_init(&(info()->forks[idx++]), NULL))
 		{
 			mutex_destroy(idx - 1);
-			return (free_info(END));
+			return (free_info(ERROR));
 		}
 	}
 	return (CONTINUE);

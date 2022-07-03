@@ -19,7 +19,7 @@ SRCS = do_eat.c		\
 		setting.c	\
 		time.c		\
 		mutex.c		\
-		monitor.c		\
+		monitor.c	\
 		utils.c
 OBJS = $(SRCS:%.c=%.o)
 
@@ -36,4 +36,4 @@ fclean : clean
 
 re : fclean all
 
-.PHONY: clean re fclean all
+.PHONY: all clean fclean re

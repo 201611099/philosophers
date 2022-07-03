@@ -12,14 +12,14 @@
 
 #include "philo.h"
 
-static void	start(t_philo *philos)
+static int	start(t_philo *philos)
 {
 	int			idx;
 	pthread_t	monitor;
 
 	idx = 0;
-	if (END == mutex_init())
-		return ;
+	if (CONTINUE != mutex_init())
+		return (ERROR);
 	while (idx < info()->num_of_philos)
 	{
 		philos[idx].when_eat = get_relative_time();
@@ -35,12 +35,14 @@ static void	start(t_philo *philos)
 	}
 	while (idx < info()->num_of_philos)
 		pthread_join(philos[idx++].thread, NULL);
+	return (END);
 }
 
 int	main(int argc, char *argv[])
 {
 	t_philo	*philos;
 	int		chk_arg;
+	int		ret;
 
 	chk_arg = set_info_argv(argc, argv);
 	if (CONTINUE != chk_arg)
@@ -52,8 +54,10 @@ int	main(int argc, char *argv[])
 	}
 	philos = (t_philo *)malloc(sizeof(t_philo) * info()->num_of_philos);
 	if (!philos)
-		return (free_info(-1));
+		return (free_info(ERROR));
 	set_philos(philos);
-	start(philos);
-	return (free_all(philos));
+	ret = start(philos);
+	if (ERROR == ret)
+		return (ret);
+	return (free_all(philos, ret));
 }
